@@ -10,14 +10,16 @@ const StatBox = ({title, count, icon, increase, subtitle, iconBackground}) => {
 
     return (
         <Box>
+            <Box>
+                <Typography
+                    variant="h5"
+                    sx={{ color: "black", whiteSpace: "nowrap"  }}
+                >
+                    {title}
+                </Typography>
+            </Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box  sx={{ flexGrow: 1 }}  >
-                    <Typography
-                        variant="h5"
-                        sx={{ color: "black", whiteSpace: "nowrap"  }}
-                    >
-                        {title}
-                    </Typography>
                     <Typography
                         variant="h3"
                         fontWeight="bold"
@@ -27,7 +29,7 @@ const StatBox = ({title, count, icon, increase, subtitle, iconBackground}) => {
                     </Typography>
                 </Box>
                 <Box sx={{ backgroundColor: iconBackground, borderRadius: "10px", }}>
-                    {React.cloneElement(icon, { sx: { fontSize: "60px",   color: "black", p: "10px",  } })}
+                    {React.cloneElement(icon, { sx: { fontSize: "50px",   color: "black", p: "10px",  } })}
                 </Box>
             </Box>
 
@@ -42,7 +44,7 @@ const StatBox = ({title, count, icon, increase, subtitle, iconBackground}) => {
                 <Typography
                     variant="h6"
                     fontStyle="lighter"
-                    sx={{ color: colors.lightGrey.main, padding: "0 5px"}}
+                    sx={{ color: colors.lightGrey.main, padding: "0 5px", whiteSpace: "nowrap"}}
                     >
                     {subtitle}
                 </Typography>

@@ -8,10 +8,9 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // 
 import DescriptionIcon from '@mui/icons-material/Description'; //jumlah permohonan
 import PendingActionsIcon from '@mui/icons-material/PendingActions'; // permohonan sedang diproses
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // permohonan selesai
+import { alpha } from "@mui/material/styles";
 import StatBox from "../components/StatBox";
-import { alpha } from '@mui/material/styles';
-
-
+// import GeographyChart from "../components/GeographyChart";
 
 
 const Topdashboard = () => {
@@ -84,10 +83,10 @@ const Topdashboard = () => {
                         sm: "repeat(3, 1fr)",  // Pada layar sedang (sm), 3 kolom
                         md: "repeat(5, 1fr)",  // Pada layar lebih besar (md dan seterusnya), 5 kolom
                       }, // 5 kolom, masing-masing akan mengambil 1 bagian yang sama
-                    gridGap: "20px", // Jarak antara tile
+                    gap: "10px", // Jarak antara tile
                     padding: " 10px 20px", // Jarak dari tepi dashboard
                     width: "100%", // Menyesuaikan lebar dashboard
-                    justifyContent: "center"
+                    justifyContent: "center",
                     }}>
                     
                     <Box sx= {{ backgroundColor: alpha(colors.white.main, 0.50), padding: "20px", borderRadius: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}
@@ -169,8 +168,8 @@ const Topdashboard = () => {
                 </Box>
 
                 {/* ROW 2 */}
-                <Box>
-                    
+                <Box >
+
                 </Box>
 
             </Box>

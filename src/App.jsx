@@ -1,7 +1,8 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./components/Topbar"; // Mengimpor komponen Topbar
-import Topdashboard from "./components/Topdashboard";
+import  Dashboard  from "./components/Dashboard";
+// import Topdashboard from "./components/Topdashboard";
 
 export default function App() {
   const [theme, colorMode] = useMode();
@@ -13,7 +14,8 @@ export default function App() {
         <div className="app">
           <main className="content">
             <Topbar />
-            <Topdashboard />
+            {/* <Topdashboard /> */}
+            <Dashboard />
           </main>
         </div>
       </ThemeProvider>
