@@ -14,12 +14,17 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
+    "@mui/x-charts": "^7.18.0",
     "@nivo/core": "^0.87.0",
     "@nivo/geo": "^0.87.0",
     "@nivo/line": "^0.87.0",
     "axios": "^1.7.7",
+    "leaflet": "^1.9.4",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

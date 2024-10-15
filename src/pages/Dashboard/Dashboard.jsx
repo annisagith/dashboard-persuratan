@@ -1,5 +1,12 @@
-import { tokens } from "../theme/theme";
-import { useTheme, Box, Typography, Button } from "@mui/material";
+import { Box, IconButton, Typography, useTheme, Button } from "@mui/material";
+import { useContext } from "react";
+import { ColorModeContext, tokens } from "../../theme/theme";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from 'react-router-dom';
+import { alpha } from "@mui/material";
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LogoutIcon from '@mui/icons-material/Logout';
 import DownloadIcon from '@mui/icons-material/Download';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -8,35 +15,16 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // 
 import DescriptionIcon from '@mui/icons-material/Description'; //jumlah permohonan
 import PendingActionsIcon from '@mui/icons-material/PendingActions'; // permohonan sedang diproses
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // permohonan selesai
-import StatBox from "./StatBox";
-import GeographyChart from "./GeographyChart";
-import AppSummary from "./AppSummary";
-import LineChartComponent from "./LineChartComponent";
-import { alpha } from "@mui/material/styles";
-
-const handleButtonClick = (label) => {
-    switch(label) {
-        case "Download Reports":
-            console.log("Downloading reports...");
-            // Logika download di sini
-            break;
-        case "Filter by office":
-            console.log("Filtering by office...");
-            // Logika filter by office di sini
-            break;
-        case "Filter by date":
-            console.log("Filtering by date...");
-            // Logika filter by date di sini
-            break;
-        default:
-            console.log("Unknown action");
-    }
-};
-
+import StatBox from "../../components/StatBox";
+import GeographyChart from "../../components/GeographyChart";
+import AppSummary from "../../components/AppSummary";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+    const { auth, setAuth } = useAuth(); // Mengambil data auth dari hook useAuth
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const colorMode = useContext(ColorModeContext);
 
     // Data untuk kartu, termasuk icon dan background
     const cardData = [
@@ -82,7 +70,53 @@ const Dashboard = () => {
         },
     ];
 
+    const handleLogout = () => {
+        setAuth({}); // Menghapus data otentikasi
+        navigate('/'); // Arahkan pengguna ke halaman login
+    };
+
+    const handleButtonClick = (label) => {
+        switch(label) {
+            case "Download Reports":
+                console.log("Downloading reports...");
+                // Logika download di sini
+                break;
+            case "Filter by office":
+                console.log("Filtering by office...");
+                // Logika filter by office di sini
+                break;
+            case "Filter by date":
+                console.log("Filtering by date...");
+                // Logika filter by date di sini
+                break;
+            default:
+                console.log("Unknown action");
+        }
+    };    
+
     return (
+        <>
+        {/* TOPBAR KOMPONEN */}
+            <Box className="topbar-component" sx={{ alignItems: 'center', padding: '0 20px', height: '40px' }}>
+                <Typography variant="h4" color={colors.primary.main} fontWeight="bold">DASHBOARD</Typography>
+                <Box display="flex" alignItems="center">
+                    <Typography variant="h5 ">Welcome, {auth.nama_admin}</Typography>
+                    <IconButton onClick={colorMode.toggleColorMode}>
+                    {
+                        theme.palette.mode == "dark" ? (
+                        <LightModeOutlinedIcon/>
+                        ) : (
+                        <DarkModeOutlinedIcon/>
+                        )
+                    }
+                    </IconButton>
+                    <IconButton onClick={handleLogout}>
+                        <LogoutIcon/>
+                    </IconButton>
+                </Box>
+            </Box>
+
+        {/* BODY */}
         <Box m="20px">
             {/* HEADER */}
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
@@ -175,7 +209,7 @@ const Dashboard = () => {
                             APPLICATION TREND
                         </Typography>
                         <Box width="100%">
-                            <LineChartComponent/>
+                            {/* <LineChartComponent/> */}
                         </Box>
                     </Box>
                 <Box
@@ -196,7 +230,8 @@ const Dashboard = () => {
                     </Box>
             </Box>
         </Box>
-    )
+        </>
+    );
 }
 
 export default Dashboard;

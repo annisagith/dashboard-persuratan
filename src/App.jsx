@@ -1,10 +1,11 @@
-import { ColorModeContext, useMode } from "./theme";
+import {Route, Routes} from 'react-router-dom'
+import { ColorModeContext, useMode } from "./theme/theme.js";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import Topbar from "./components/Topbar"; // Mengimpor komponen Topbar
-import  Dashboard  from "./components/Dashboard";
-// import Topdashboard from "./components/Topdashboard";
+import Login from './pages/Login/Login.jsx';
+import Dashboard from "./pages/Dashboard/Dashboard"
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
-export default function App() {
+function App() {
   const [theme, colorMode] = useMode();
 
   return (
@@ -13,12 +14,22 @@ export default function App() {
         <CssBaseline />
         <div className="app">
           <main className="content">
-            <Topbar />
-            {/* <Topdashboard /> */}
-            <Dashboard />
+              <Routes>
+                <Route path="/" element = {<Login/>}/>
+                <Route>
+                    <Route path="/dashboard" element = 
+                    {                        
+                      <ProtectedRoute>
+                            <Dashboard />
+                      </ProtectedRoute>
+                    }/>
+                </Route>
+              </Routes>
           </main>
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
   )
 }
+
+export default App;

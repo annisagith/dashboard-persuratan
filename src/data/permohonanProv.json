@@ -1,0 +1,206 @@
+[
+    {
+      "provinsi": "Aceh",
+      "total_application": 250,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2023"
+    },
+    {
+      "provinsi": "Sumatra Utara",
+      "total_application": 900,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2023"
+    },
+    {
+      "provinsi": "Sumatra Barat",
+      "total_application": 400,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2023"
+    },
+    {
+      "provinsi": "Riau",
+      "total_application": 600,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2022"
+    },
+    {
+      "provinsi": "Jambi",
+      "total_application": 400,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2024"
+    },
+    {
+      "provinsi": "Sumatra Selatan",
+      "total_application": 700,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2024"
+    },
+    {
+      "provinsi": "Bengkulu",
+      "total_application": 300,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    },
+    {
+      "provinsi": "Lampung",
+      "total_application": 500,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    },
+    {
+      "provinsi": "DKI Jakarta",
+      "total_application": 1500,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    },
+    {
+      "provinsi": "Jawa Barat",
+      "total_application": 1200,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    },
+    {
+      "provinsi": "Jawa Tengah",
+      "total_application": 900,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2020"
+    },
+    {
+      "provinsi": "DI Yogyakarta",
+      "total_application": 400,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2020"
+    },
+    {
+      "provinsi": "Jawa Timur",
+      "total_application": 1100,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2021"
+    },
+    {
+      "provinsi": "Bali",
+      "total_application": 800,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2021"
+    },
+    {
+      "provinsi": "Nusa Tenggara Barat",
+      "total_application": 600,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2022"
+    },
+    {
+      "provinsi": "Nusa Tenggara Timur",
+      "total_application": 500,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2018"
+    },
+    {
+      "provinsi": "Kalimantan Barat",
+      "total_application": 700,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2018"
+    },
+    {
+      "provinsi": "Kalimantan Tengah",
+      "total_application": 600,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2023"
+    },
+    {
+      "provinsi": "Kalimantan Selatan",
+      "total_application": 500,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2022"
+    },
+    {
+      "provinsi": "Kalimantan Timur",
+      "total_application": 400,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2018"
+    },
+    {
+      "provinsi": "Sulawesi Utara",
+      "total_application": 300,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2020"
+    },
+    {
+      "provinsi": "Sulawesi Tengah",
+      "total_application": 200,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2021"
+    },
+    {
+      "provinsi": "Sulawesi Selatan",
+      "total_application": 700,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2024"
+    },
+    {
+      "provinsi": "Sulawesi Tenggara",
+      "total_application": 400,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2024"
+    },
+    {
+      "provinsi": "Gorontalo",
+      "total_application": 400,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2023"
+    },
+    {
+      "provinsi": "Maluku",
+      "total_application": 300,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2018"
+    },
+    {
+      "provinsi": "Maluku Utara",
+      "total_application": 200,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    },
+    {
+      "provinsi": "Papua",
+      "total_application": 100,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    },
+    {
+      "provinsi": "Papua Barat",
+      "total_application": 50,
+      "completed_application": 100,
+      "application_inprogress": 150,
+      "due_date": "10-10-2019"
+    }
+  ]
+  

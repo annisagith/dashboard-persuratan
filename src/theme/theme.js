@@ -6,13 +6,13 @@ export const tokens = (mode) => ({
     ...(mode === 'dark'
         ? {
             background: {
-                default: "#141b2d", // Latar belakang gelap
+                default: "#141B2D", // Latar belakang gelap
             },
             primary: {
                 main: "#FFFFFF", // Putih
             },
             white: {
-                main: "#E6E8EC", // Abu-abu terang
+                main: "#343A46", // Abu-abu terang
             },
             purple: {
                 main: "#8280FF", // Ungu
@@ -57,6 +57,9 @@ export const tokens = (mode) => ({
             lightGrey: {
                 main: "#444444", // Abu gelap
             },
+            buttonlogin: {
+                main: "#013E69"
+            }
         }
     : {
         // Warna untuk mode terang di sini
@@ -112,6 +115,9 @@ export const tokens = (mode) => ({
         lightGrey: {
             main: "#606060", // abu
         },
+        buttonlogin: {
+            main: "#F3B31A"
+        }
     }),
 });
 

@@ -1,0 +1,35 @@
+{
+    "data": [
+      {
+        "year": 2018,
+        "total_applications": 500,
+        "applications_in_progress": 150
+      },
+      {
+        "year": 2019,
+        "total_applications": 620,
+        "applications_in_progress": 180
+      },
+      {
+        "year": 2020,
+        "total_applications": 580,
+        "applications_in_progress": 140
+      },
+      {
+        "year": 2021,
+        "total_applications": 710,
+        "applications_in_progress": 200
+      },
+      {
+        "year": 2022,
+        "total_applications": 680,
+        "applications_in_progress": 170
+      },
+      {
+        "year": 2023,
+        "total_applications": 740,
+        "applications_in_progress": 210
+      }
+    ]
+  }
+  
