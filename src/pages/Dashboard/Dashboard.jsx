@@ -1,12 +1,6 @@
-import { Box, IconButton, Typography, useTheme, Button } from "@mui/material";
-import { useContext } from "react";
-import { ColorModeContext, tokens } from "../../theme/theme";
-import useAuth from "../../hooks/useAuth";
-import { useNavigate } from 'react-router-dom';
+import { Box, Typography, useTheme, Button } from "@mui/material";
+import { tokens } from "../../theme/theme";
 import { alpha } from "@mui/material";
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import LogoutIcon from '@mui/icons-material/Logout';
 import DownloadIcon from '@mui/icons-material/Download';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -15,16 +9,33 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // 
 import DescriptionIcon from '@mui/icons-material/Description'; //jumlah permohonan
 import PendingActionsIcon from '@mui/icons-material/PendingActions'; // permohonan sedang diproses
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // permohonan selesai
+import Topbar from "../../components/Topbar";
+// import Sidebar from "../../components/Sidebar";
 import StatBox from "../../components/StatBox";
 import GeographyChart from "../../components/GeographyChart";
 import AppSummary from "../../components/AppSummary";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+
 
 const Dashboard = () => {
-    const navigate = useNavigate();
-    const { auth, setAuth } = useAuth(); // Mengambil data auth dari hook useAuth
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
+
+    const { auth } = useAuth();
+    const navigate = useNavigate(); // Hook untuk navigasi
+    // Mengecek apakah role bukan "Pusat"
+    useEffect(() => {
+        if (auth.role !== "Pusat") {
+            // Jika bukan role "Pusat", arahkan ke halaman akses ditolak atau login
+            navigate('/access-denied'); // Ganti dengan rute yang sesuai
+        }
+    }, [auth.role, navigate]); // Pengecekan dilakukan setiap kali role berubah
+
+    if (!auth.role) {
+        return <div>Loading...</div>; // Menunggu data auth tersedia
+    }
 
     // Data untuk kartu, termasuk icon dan background
     const cardData = [
@@ -70,11 +81,6 @@ const Dashboard = () => {
         },
     ];
 
-    const handleLogout = () => {
-        setAuth({}); // Menghapus data otentikasi
-        navigate('/'); // Arahkan pengguna ke halaman login
-    };
-
     const handleButtonClick = (label) => {
         switch(label) {
             case "Download Reports":
@@ -95,27 +101,12 @@ const Dashboard = () => {
     };    
 
     return (
-        <>
+        <Box display="flex">
+        {/* SIDEBAR KOMPONEN
+        <Sidebar/> */}
+        <Box>
         {/* TOPBAR KOMPONEN */}
-            <Box className="topbar-component" sx={{ alignItems: 'center', padding: '0 20px', height: '40px' }}>
-                <Typography variant="h4" color={colors.primary.main} fontWeight="bold">DASHBOARD</Typography>
-                <Box display="flex" alignItems="center">
-                    <Typography variant="h5 ">Welcome, {auth.nama_admin}</Typography>
-                    <IconButton onClick={colorMode.toggleColorMode}>
-                    {
-                        theme.palette.mode == "dark" ? (
-                        <LightModeOutlinedIcon/>
-                        ) : (
-                        <DarkModeOutlinedIcon/>
-                        )
-                    }
-                    </IconButton>
-                    <IconButton onClick={handleLogout}>
-                        <LogoutIcon/>
-                    </IconButton>
-                </Box>
-            </Box>
-
+        <Topbar/>
         {/* BODY */}
         <Box m="20px">
             {/* HEADER */}
@@ -194,7 +185,7 @@ const Dashboard = () => {
                     borderRadius="20px"
                     >
                     <Box sx ={{ display:"flex", justifyContent:"space-between", alignItems: "center" }}>
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             APPLICATION SUMMARY
                         </Typography>
                     </Box>
@@ -205,7 +196,7 @@ const Dashboard = () => {
                     gridColumn="span 5"
                     backgroundColor={colors.white.main} 
                     padding= "15px" >
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             APPLICATION TREND
                         </Typography>
                         <Box width="100%">
@@ -216,7 +207,7 @@ const Dashboard = () => {
                     gridColumn="span 5"
                     backgroundColor={colors.white.main}
                     padding= "15px" >
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             USERS AND APPLICATION
                         </Typography>
                     </Box>
@@ -224,13 +215,14 @@ const Dashboard = () => {
                     gridColumn="span 5"
                     backgroundColor={colors.white.main} 
                     padding= "15px">
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             APPLICATION STATUS
                         </Typography>
                     </Box>
             </Box>
         </Box>
-        </>
+        </Box>
+        </Box>
     );
 }
 

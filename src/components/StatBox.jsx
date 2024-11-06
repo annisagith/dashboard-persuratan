@@ -13,7 +13,7 @@ const StatBox = ({title, count, icon, increase, subtitle, iconBackground}) => {
             <Box>
                 <Typography
                     variant="h5"
-                    sx={{ color: "black", whiteSpace: "nowrap"  }}
+                    sx={{ color: colors.primary.main, whiteSpace: "nowrap"  }}
                 >
                     {title}
                 </Typography>
@@ -23,13 +23,13 @@ const StatBox = ({title, count, icon, increase, subtitle, iconBackground}) => {
                     <Typography
                         variant="h3"
                         fontWeight="bold"
-                        sx={{ color: "black", padding: "20px" }}
+                        sx={{ color: colors.primary.main, padding: "20px" }}
                     >
                         {count}
                     </Typography>
                 </Box>
                 <Box sx={{ backgroundColor: iconBackground, borderRadius: "10px", }}>
-                    {React.cloneElement(icon, { sx: { fontSize: "50px",   color: "black", p: "10px",  } })}
+                    {React.cloneElement(icon, { sx: { fontSize: "50px",   color: colors.primary.main, p: "10px",  } })}
                 </Box>
             </Box>
 

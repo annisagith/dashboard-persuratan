@@ -14,6 +14,9 @@ export const tokens = (mode) => ({
             white: {
                 main: "#343A46", // Abu-abu terang
             },
+            sidebar: {
+                main: "#343A46", // Abu-abu terang
+            },
             purple: {
                 main: "#8280FF", // Ungu
                 opacity: 0.34, // 34%
@@ -55,7 +58,7 @@ export const tokens = (mode) => ({
                 main: "#1A1D3B", // Biru gelap
             },
             lightGrey: {
-                main: "#444444", // Abu gelap
+                main: "#ADADAD", // Abu gelap
             },
             buttonlogin: {
                 main: "#013E69"
@@ -71,6 +74,9 @@ export const tokens = (mode) => ({
         },
         white: {
             main: "#FFFFFF", // putih
+        },
+        sidebar: {
+            main: "#000000", // putih
         },
         purple: {
             main: "#8280FF", // ungu

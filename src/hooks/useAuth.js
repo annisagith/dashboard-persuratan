@@ -1,10 +1,10 @@
-import { useContext, useDebugValue } from "react";
+import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
+// Membuat custom hook useAuth untuk memudahkan akses konteks autentikasi
 const useAuth = () => {
-    const { auth } = useContext(AuthContext);
-    useDebugValue(auth, auth => auth?.username_akun ? "Logged In" : "Logged Out")
-    return useContext(AuthContext)
+    // Mengambil dan mengembalikan seluruh data dari AuthContext
+    return useContext(AuthContext);
 }
 
 export default useAuth;

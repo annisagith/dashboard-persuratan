@@ -2,56 +2,69 @@ import { Box, Typography, Button, TextField, useTheme, IconButton, Alert } from 
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { ColorModeContext, tokens } from "../../theme/theme";
-import { useContext, useEffect, useState } from 
-'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "../../api/axios";
-import useAuth from "../../hooks/useAuth"
+import useAuth from "../../hooks/useAuth";
+import { jwtDecode } from "jwt-decode";
 
-const LOGIN_URL ="api/AuthAdmin/login";
+// URL untuk endpoint login
+const LOGIN_URL = "api/AuthAdmin/login";
 
 const Login = () => {
-    // menampilkan informasi auth 
-    const {setAuth} = useAuth();
-    const {auth} = useAuth();
+    // Mengambil `setAuth` dari konteks autentikasi
+    const { setAuth } = useAuth();
+    const { auth } = useAuth();
+    
+    // Menampilkan status auth saat aplikasi dimulai dan ketika auth berubah
     useEffect(() => {
         console.log("Auth status on app start:", auth);
-    }, [auth]); // Menjalankan efek ini setiap kali `auth` berubah
+    }, [auth]);
 
-    // menggunakan tema dark || light
+    // Menggunakan tema untuk mode terang/gelap
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
+    const colors = tokens(theme.palette.mode); // Mengambil warna tema berdasarkan mode (terang atau gelap)
+    const colorMode = useContext(ColorModeContext); // Konteks untuk mengubah mode terang/gelap
 
+    // Untuk navigasi ke halaman lain setelah login berhasil
     const navigate = useNavigate();
 
+    // State untuk menyimpan input username dan password
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [errMsg, setErrMsg] = useState('');
+    const [errMsg, setErrMsg] = useState(''); // Menyimpan pesan error jika login gagal
 
-
+    // Fungsi yang menangani submit form login
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Mencegah reload halaman
         console.log("Form submitted with username:", username, "and password:", password);
         try {
             console.log("Sending login request");
-            const response = await axios.post(LOGIN_URL,{username, password},
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
+            // Mengirim permintaan login ke server
+            const response = await axios.post(LOGIN_URL, { username, password }, {
+                headers: { 'Content-Type': 'application/json' },
+            });
             console.log("Response received:", response.data['data']);
-            // const{token, admin} = response.data;
+
+            // Mengambil token dan informasi admin dari response
             const token = response.data['data']['token'];
-            const username_akun = response.data['data']['admin']['username']
-            const nama_admin = response.data['data']['admin']['nama']
-            // setAuth({ ...admin, token });
-            setAuth({ username_akun, token, nama_admin });
+            const decoded = jwtDecode(token);
+            const role = decoded.role; // Extract the role from the decoded token
+            const username_akun = response.data['data']['admin']['username'];
+            const nama_admin = response.data['data']['admin']['nama'];
+            
+            // Menyimpan token dan info admin ke dalam konteks autentikasi
+            setAuth({ username_akun, token, nama_admin, role });
+            
+            // Mengosongkan input setelah login berhasil
             setUsername('');
             setPassword('');
+            
+            // Mengarahkan ke halaman dashboard
             navigate('/dashboard');
         } catch (err) {
             console.log("Error occurred during login:", err); 
+            // Menangani pesan error tergantung pada jenis kesalahan
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
@@ -63,84 +76,94 @@ const Login = () => {
             }
         }
     }
+
+    // Menampilkan log jika pesan error diperbarui
     useEffect(() => {
         console.log("Updated errMsg:", errMsg);
     }, [errMsg]);
-    
 
     return (
-        <Box
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            sx={{ 
-                height: "100vh", 
-                }}
-        >
-            <Box   
-                sx={{ justifyContent: 'center', alignItems: 'center'}}
-                gridColumn={'span 5'}
-            >
+        <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" sx={{ height: "100vh" }}>
+            {/* Kolom kiri: Form login */}
+            <Box sx={{ justifyContent: 'center', alignItems: 'center' }} gridColumn={'span 5'}>
                 <Box m="20px">
-                    <Box sx = {{ display: "flex", alignItems:"center", gap: "10px"}}>
+                    {/* Header logo dan nama instansi */}
+                    <Box sx={{ display: "flex", alignItems:"center", gap: "10px" }}>
                         <Box>
                             <img src="/logoatrbpn.png" alt="Logo" style={{ width: "100px", height: "auto" }} />
                         </Box>
                         <Box width="200px">
-                            <Typography variant= "h6">
+                            <Typography variant="h6">
                                 Kementerian Agraria dan Tata Ruang / Badan Pertanahan Nasional
                             </Typography>
                         </Box>
                     </Box>
                     <Box>
-                        <Typography variant = "h3">
-                            DASHBOAR MONITORING SISTEM PEMBERKASAN ATR/BPN
+                        <Typography variant="h3">
+                            DASHBOARD MONITORING SISTEM PEMBERKASAN ATR/BPN
                         </Typography>
                     </Box>
                     
-                    <Box sx={{ backgroundColor: colors.white.main, borderRadius: "20px"}}>
+                    {/* Box untuk form login */}
+                    <Box sx={{ backgroundColor: colors.white.main, borderRadius: "20px" }}>
                         <Box m="30px" p="20px">
+                            {/* Menampilkan pesan error jika ada */}
                             {errMsg && (
-                            <Alert severity="error" onClose={() => setErrMsg('')}
-                            tabIndex="-1"
-                            role="alert">
-                                {errMsg}
-                            </Alert>
+                                <Alert severity="error" onClose={() => setErrMsg('')}
+                                tabIndex="-1"
+                                role="alert">
+                                    {errMsg}
+                                </Alert>
                             )}  
                             <Typography variant="h4" gutterBottom>Login</Typography>
                             <form onSubmit={handleSubmit}>
-                                <TextField label="Username" 
-                                value={username}
-                                autoComplete="off"
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                                fullWidth 
-                                 sx={{ marginBottom: 2 }} />
-                                <TextField label="Password" type="password" 
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                fullWidth 
-                                sx={{ marginBottom: 2 }} />
+                                {/* Input username */}
+                                <TextField 
+                                    label="Username" 
+                                    value={username}
+                                    autoComplete="off"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                    fullWidth 
+                                    sx={{ marginBottom: 2 }} 
+                                />
+                                {/* Input password */}
+                                <TextField 
+                                    label="Password" 
+                                    type="password" 
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    fullWidth 
+                                    sx={{ marginBottom: 2 }} 
+                                />
+                                {/* Tombol submit untuk login */}
                                 <Button 
-                                variant="contained" 
-                                color="primary" 
-                                type="submit"
-                                fullWidth 
-                                sx={{ marginBottom: 3 }}>Login</Button>
+                                    variant="contained" 
+                                    color="primary" 
+                                    type="submit"
+                                    fullWidth 
+                                    sx={{ marginBottom: 3 }}
+                                >
+                                    Login
+                                </Button>
                             </form>
                         </Box>
                     </Box>
                 </Box>
             </Box>
+
+            {/* Kolom kanan: Background image dan tombol mode terang/gelap */}
             <Box
                 sx={{ 
                     backgroundImage: 'url(/animasiatrbpn.jpeg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     position: 'relative'
-                    }}
+                }}
                 gridColumn={'span 7'}
             >
+                {/* Tombol untuk toggle mode terang/gelap */}
                 <IconButton 
                     onClick={colorMode.toggleColorMode} 
                     sx={{ position: 'absolute', top: 20, right: 20, color: 'white' }}
