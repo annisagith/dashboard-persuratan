@@ -4,7 +4,6 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Login from './pages/Login/Login.jsx';
 import Dashboard from "./pages/Dashboard/Dashboard"
 import ProtectedRoute from './components/ProtectedRoute.jsx';
-import AccessDenied from './components/access-denied.jsx';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -22,14 +21,6 @@ function App() {
                     {                        
                       <ProtectedRoute>
                             <Dashboard />
-                      </ProtectedRoute>
-                    }/>
-                </Route>
-                <Route>
-                    <Route path="/access-denied" element = 
-                    {                        
-                      <ProtectedRoute>
-                            <AccessDenied />
                       </ProtectedRoute>
                     }/>
                 </Route>

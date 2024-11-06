@@ -9,7 +9,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // 
 import DescriptionIcon from '@mui/icons-material/Description'; //jumlah permohonan
 import PendingActionsIcon from '@mui/icons-material/PendingActions'; // permohonan sedang diproses
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // permohonan selesai
-import Topbar from "../../components/Topbar";
+import Topbar from "../../components/Global/Topbar";
 // import Sidebar from "../../components/Sidebar";
 import StatBox from "../../components/StatBox";
 import GeographyChart from "../../components/GeographyChart";
@@ -29,7 +29,7 @@ const Dashboard = () => {
     useEffect(() => {
         if (auth.role !== "Pusat") {
             // Jika bukan role "Pusat", arahkan ke halaman akses ditolak atau login
-            navigate('/access-denied'); // Ganti dengan rute yang sesuai
+            navigate('/', { state: { message: 'Access Denied: You are not authorized to view this page.' } }); // Ganti dengan rute yang sesuai
         }
     }, [auth.role, navigate]); // Pengecekan dilakukan setiap kali role berubah
 

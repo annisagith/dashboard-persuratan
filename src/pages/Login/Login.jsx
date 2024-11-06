@@ -3,7 +3,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { ColorModeContext, tokens } from "../../theme/theme";
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { jwtDecode } from "jwt-decode";
@@ -26,8 +26,19 @@ const Login = () => {
     const colors = tokens(theme.palette.mode); // Mengambil warna tema berdasarkan mode (terang atau gelap)
     const colorMode = useContext(ColorModeContext); // Konteks untuk mengubah mode terang/gelap
 
+    const location = useLocation(); // Untuk mengambil state dari navigate
     // Untuk navigasi ke halaman lain setelah login berhasil
     const navigate = useNavigate();
+
+    // Mengambil message dari state (jika ada)
+    const message = location.state?.message || ''; 
+    useEffect(() => {
+        // Jika ada pesan dari state, tampilkan alert
+        if (message) {
+            setErrMsg(message); // Set pesan error ke state errMsg
+        }
+    }, [message]);
+    
 
     // State untuk menyimpan input username dan password
     const [username, setUsername] = useState('');

@@ -1,6 +1,6 @@
 import { Box, IconButton, Typography, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles"; // Correct import for useTheme
-import { tokens } from "../theme/theme"; // Adjust the path as necessary
+import { tokens } from "../../theme/theme"; // Adjust the path as necessary
 import { useState } from "react";
 
 const SidebarComponent = () => {
