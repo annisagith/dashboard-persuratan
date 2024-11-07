@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 // URL untuk endpoint login
 const LOGIN_URL = "api/AuthAdmin/login";
@@ -63,6 +64,12 @@ const Login = () => {
             const role = decoded.role; // Extract the role from the decoded token
             const username_akun = response.data['data']['admin']['username'];
             const nama_admin = response.data['data']['admin']['nama'];
+
+            // Simpan token dan info admin ke dalam cookie
+            Cookies.set('token', token, { expires: 1 }); // Cookie berlaku selama 1 hari
+            Cookies.set('role', role, { expires: 1 });
+            Cookies.set('username_akun', username_akun, { expires: 1 });
+            Cookies.set('nama_admin', nama_admin, { expires: 1 });
             
             // Menyimpan token dan info admin ke dalam konteks autentikasi
             setAuth({ username_akun, token, nama_admin, role });
@@ -72,7 +79,7 @@ const Login = () => {
             setPassword('');
             
             // Mengarahkan ke halaman dashboard
-            navigate('/dashboard');
+            navigate('/overview');
         } catch (err) {
             console.log("Error occurred during login:", err); 
             // Menangani pesan error tergantung pada jenis kesalahan
@@ -87,6 +94,19 @@ const Login = () => {
             }
         }
     }
+
+    // Cek cookie saat halaman dimuat untuk memastikan pengguna tetap login
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (token) {
+            // const decoded = jwtDecode(token);
+            const role = Cookies.get('role');
+            const username_akun = Cookies.get('username_akun');
+            const nama_admin = Cookies.get('nama_admin');
+            setAuth({ username_akun, token, nama_admin, role });
+            navigate('/overview'); // Arahkan ke halaman dashboard jika ada token
+        }
+    }, [setAuth, navigate]);
 
     // Menampilkan log jika pesan error diperbarui
     useEffect(() => {

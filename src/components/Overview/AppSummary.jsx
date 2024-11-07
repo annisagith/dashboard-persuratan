@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {Table, Box, TableContainer, TableHead, TableBody, TableRow, Paper, TableCell, FormControl, InputLabel, Select, MenuItem,} from "@mui/material";
-import data from '../data/permohonan.json';
+import data from '../../data/permohonan.json';
+
 
 const AppSummary = () => {
     // State untuk menyimpan nilai filter

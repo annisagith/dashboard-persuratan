@@ -2,7 +2,7 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 // import { alpha } from '@mui/material/styles';
-import { tokens } from "../theme/theme";
+import { tokens } from "../../theme/theme";
 
 const StatBox = ({title, count, icon, increase, subtitle, iconBackground}) => {
     const theme = useTheme();

@@ -76,7 +76,7 @@ export const tokens = (mode) => ({
             main: "#FFFFFF", // putih
         },
         sidebar: {
-            main: "#000000", // putih
+            main: "#000000", // hitam
         },
         purple: {
             main: "#8280FF", // ungu
@@ -152,6 +152,9 @@ export const themeSetting = (mode) => {
                     border: {
                         main: colors.white.main, // Warna border untuk dark mode
                     },
+                    sidebar: {
+                        main: colors.sidebar.main
+                    }
                 } 
                 : {
                     primary: {
@@ -171,6 +174,9 @@ export const themeSetting = (mode) => {
                     border: {
                         main: '#000000', // Warna border untuk light mode
                     },
+                    sidebar: {
+                        main: colors.sidebar.main
+                    }
                 }),
         },
         typography: {
@@ -192,13 +198,17 @@ export const themeSetting = (mode) => {
                 fontFamily: ["Roboto", "sans-serif"].join(","),
                 fontSize: 20,
             },
-        h5: {
+            h5: {
                 fontFamily: ["Roboto", "sans-serif"].join(","),
                 fontSize: 16,
             },
             h6: {
                 fontFamily: ["Roboto", "sans-serif"].join(","),
                 fontSize: 14,
+            },
+            h7: {
+                fontFamily: ["Roboto", "sans-serif"].join(","),
+                fontSize: 10,
             },
         },
     };

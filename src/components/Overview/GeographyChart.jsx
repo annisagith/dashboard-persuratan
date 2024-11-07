@@ -1,7 +1,7 @@
 import { Marker, Popup, MapContainer, TileLayer } from "react-leaflet";
 import 'leaflet/dist/leaflet.css'; 
 // import geojsonProvinsi from './GeoData.geojson';
-import permohonan from '../data/permohonanProv.json';
+import permohonan from '../../data/permohonanProv.json'
 
 const GeographyChart = () => {
     const kantorWilayah = [

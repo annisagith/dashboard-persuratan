@@ -1,9 +1,15 @@
 import {Route, Routes} from 'react-router-dom'
 import { ColorModeContext, useMode } from "./theme/theme.js";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import Login from './pages/Login/Login.jsx';
-import Dashboard from "./pages/Dashboard/Dashboard"
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import Login from './pages/Login/Login.jsx';
+import Overview from './pages/Overview/Overview.jsx';
+import Admin from './pages/Admin_Petugas/Admin.jsx';
+import Layanan from './pages/Layanan/Layanan.jsx';
+import Permohonan from './pages/Permohonan/Permohonan.jsx';
+import Prosedur from './pages/Prosedur/Prosedur.jsx';
+import Wilayah from './pages/Wilayah/Wilayah.jsx';
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -17,10 +23,50 @@ function App() {
               <Routes>
                 <Route path="/" element = {<Login/>}/>
                 <Route>
-                    <Route path="/dashboard" element = 
+                    <Route path="/overview" element = 
                     {                        
                       <ProtectedRoute>
-                            <Dashboard />
+                            <Overview />
+                      </ProtectedRoute>
+                    }/>
+                </Route>
+                <Route>
+                    <Route path="/admin" element = 
+                    {                        
+                      <ProtectedRoute>
+                            <Admin />
+                      </ProtectedRoute>
+                    }/>
+                </Route>
+                <Route>
+                    <Route path="/layanan" element = 
+                    {                        
+                      <ProtectedRoute>
+                            <Layanan />
+                      </ProtectedRoute>
+                    }/>
+                </Route>
+                <Route>
+                    <Route path="/permohonan" element = 
+                    {                        
+                      <ProtectedRoute>
+                            <Permohonan />
+                      </ProtectedRoute>
+                    }/>
+                </Route>
+                <Route>
+                    <Route path="/prosedur" element = 
+                    {                        
+                      <ProtectedRoute>
+                            <Prosedur />
+                      </ProtectedRoute>
+                    }/>
+                </Route>
+                <Route>
+                    <Route path="/wilayah" element = 
+                    {                        
+                      <ProtectedRoute>
+                            <Wilayah />
                       </ProtectedRoute>
                     }/>
                 </Route>

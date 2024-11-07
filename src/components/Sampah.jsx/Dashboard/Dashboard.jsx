@@ -1,5 +1,6 @@
-import { tokens } from "../theme/theme";
-import { useTheme, Box, Typography, Button } from "@mui/material";
+import { Box, Typography, useTheme, Button } from "@mui/material";
+import { tokens } from "../../theme/theme";
+import { alpha } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -8,35 +9,33 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // 
 import DescriptionIcon from '@mui/icons-material/Description'; //jumlah permohonan
 import PendingActionsIcon from '@mui/icons-material/PendingActions'; // permohonan sedang diproses
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // permohonan selesai
-import StatBox from "./StatBox";
-import GeographyChart from "./GeographyChart";
-import AppSummary from "./AppSummary";
-import LineChartComponent from "./LineChartComponent";
-import { alpha } from "@mui/material/styles";
-
-const handleButtonClick = (label) => {
-    switch(label) {
-        case "Download Reports":
-            console.log("Downloading reports...");
-            // Logika download di sini
-            break;
-        case "Filter by office":
-            console.log("Filtering by office...");
-            // Logika filter by office di sini
-            break;
-        case "Filter by date":
-            console.log("Filtering by date...");
-            // Logika filter by date di sini
-            break;
-        default:
-            console.log("Unknown action");
-    }
-};
+import Topbar from "../../components/Global/Topbar";
+import Sidebar from "../../components/Global/Sidebar";
+import StatBox from "../../components/StatBox";
+import GeographyChart from "../../components/GeographyChart";
+import AppSummary from "../../components/AppSummary";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 const Dashboard = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const { auth } = useAuth();
+    const navigate = useNavigate(); // Hook untuk navigasi
+    // Mengecek apakah role bukan "Pusat"
+    useEffect(() => {
+        if (auth.role !== "Pusat") {
+            // Jika bukan role "Pusat", arahkan ke halaman akses ditolak atau login
+            navigate('/', { state: { message: 'Access Denied: You are not authorized to view this page.' } }); // Ganti dengan rute yang sesuai
+        }
+    }, [auth.role, navigate]); // Pengecekan dilakukan setiap kali role berubah
+
+    if (!auth.role) {
+        return <div>Loading...</div>; // Menunggu data auth tersedia
+    }
 
     // Data untuk kartu, termasuk icon dan background
     const cardData = [
@@ -82,7 +81,33 @@ const Dashboard = () => {
         },
     ];
 
+    const handleButtonClick = (label) => {
+        switch(label) {
+            case "Download Reports":
+                console.log("Downloading reports...");
+                // Logika download di sini
+                break;
+            case "Filter by office":
+                console.log("Filtering by office...");
+                // Logika filter by office di sini
+                break;
+            case "Filter by date":
+                console.log("Filtering by date...");
+                // Logika filter by date di sini
+                break;
+            default:
+                console.log("Unknown action");
+        }
+    };    
+
     return (
+        <Box display="flex">
+        {/* SIDEBAR KOMPONEN */}
+        <Sidebar/>
+        <Box>
+        {/* TOPBAR KOMPONEN */}
+        <Topbar/>
+        {/* BODY */}
         <Box m="20px">
             {/* HEADER */}
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
@@ -160,7 +185,7 @@ const Dashboard = () => {
                     borderRadius="20px"
                     >
                     <Box sx ={{ display:"flex", justifyContent:"space-between", alignItems: "center" }}>
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             APPLICATION SUMMARY
                         </Typography>
                     </Box>
@@ -171,18 +196,18 @@ const Dashboard = () => {
                     gridColumn="span 5"
                     backgroundColor={colors.white.main} 
                     padding= "15px" >
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             APPLICATION TREND
                         </Typography>
                         <Box width="100%">
-                            <LineChartComponent/>
+                            {/* <LineChartComponent/> */}
                         </Box>
                     </Box>
                 <Box
                     gridColumn="span 5"
                     backgroundColor={colors.white.main}
                     padding= "15px" >
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             USERS AND APPLICATION
                         </Typography>
                     </Box>
@@ -190,13 +215,15 @@ const Dashboard = () => {
                     gridColumn="span 5"
                     backgroundColor={colors.white.main} 
                     padding= "15px">
-                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color:"black" }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             APPLICATION STATUS
                         </Typography>
                     </Box>
             </Box>
         </Box>
-    )
+        </Box>
+        </Box>
+    );
 }
 
 export default Dashboard;

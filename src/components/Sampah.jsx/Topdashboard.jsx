@@ -9,7 +9,7 @@ import DescriptionIcon from '@mui/icons-material/Description'; //jumlah permohon
 import PendingActionsIcon from '@mui/icons-material/PendingActions'; // permohonan sedang diproses
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // permohonan selesai
 import { alpha } from "@mui/material/styles";
-import StatBox from "../components/StatBox";
+import StatBox from "../StatBox";
 // import GeographyChart from "../components/GeographyChart";
 
 
