@@ -6,6 +6,7 @@ import { ColorModeContext, tokens } from "../../theme/theme";
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
+import Cookies from "js-cookie";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -15,6 +16,12 @@ const Topbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    // Hapus semua cookie yang berhubungan dengan sesi login
+    Cookies.remove('token');
+    Cookies.remove('role');
+    Cookies.remove('username_akun');
+    Cookies.remove('nama_admin');
+
     setAuth({}); // Menghapus data otentikasi
     navigate('/'); // Arahkan pengguna ke halaman login
   };

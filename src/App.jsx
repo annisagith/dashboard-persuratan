@@ -9,10 +9,30 @@ import Layanan from './pages/Layanan/Layanan.jsx';
 import Permohonan from './pages/Permohonan/Permohonan.jsx';
 import Prosedur from './pages/Prosedur/Prosedur.jsx';
 import Wilayah from './pages/Wilayah/Wilayah.jsx';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import { useNavigate, useLocation } from 'react-router-dom';
+import useAuth from './hooks/useAuth.js';
 
 
 function App() {
   const [theme, colorMode] = useMode();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setAuth } = useAuth();
+
+  // Cek cookie saat halaman dimuat untuk memastikan pengguna tetap login
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+        // const decoded = jwtDecode(token);
+        const role = Cookies.get('role');
+        const username_akun = Cookies.get('username_akun');
+        const nama_admin = Cookies.get('nama_admin');
+        setAuth({ username_akun, token, nama_admin, role });
+        navigate(location.pathname); // Arahkan ke halaman dashboard jika ada token
+      }
+  }, [setAuth, navigate, location.pathname]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

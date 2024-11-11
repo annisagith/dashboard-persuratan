@@ -95,19 +95,6 @@ const Login = () => {
         }
     }
 
-    // Cek cookie saat halaman dimuat untuk memastikan pengguna tetap login
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
-            // const decoded = jwtDecode(token);
-            const role = Cookies.get('role');
-            const username_akun = Cookies.get('username_akun');
-            const nama_admin = Cookies.get('nama_admin');
-            setAuth({ username_akun, token, nama_admin, role });
-            navigate('/overview'); // Arahkan ke halaman dashboard jika ada token
-        }
-    }, [setAuth, navigate]);
-
     // Menampilkan log jika pesan error diperbarui
     useEffect(() => {
         console.log("Updated errMsg:", errMsg);
