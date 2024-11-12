@@ -189,7 +189,7 @@ const Overview = () => {
                             APPLICATION SUMMARY
                         </Typography>
                     </Box>
-                        <AppSummary/>
+                    <AppSummary/>
                 </Box>
                 {/* ROW 3 */}
                 <Box

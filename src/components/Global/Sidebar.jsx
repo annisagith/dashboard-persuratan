@@ -13,12 +13,13 @@ const SidebarComponent = () => {
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
     return (
-        <Layout >
             <Sider 
                 className = 'sidebar'
                 collapsed={isCollapsed}
                 collapsible
                 trigger={null}
+                width={200}              // Lebar saat expanded
+                collapsedWidth={80}       // Lebar saat collapsed
                 style={{ backgroundColor: colors.sidebar.main }}
                 >
                 <Box
@@ -56,7 +57,6 @@ const SidebarComponent = () => {
                 </Box>
                 <MenuList />
             </Sider>
-        </Layout>
     );
 };
 

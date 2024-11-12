@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Menu } from "antd";
 import DashboardIcon from '@mui/icons-material/Dashboard'; //icon untuk menu overview
 import ContactMailIcon from '@mui/icons-material/ContactMail'; //icon untuk menu permohonan

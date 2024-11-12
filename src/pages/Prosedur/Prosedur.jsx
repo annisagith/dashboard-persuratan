@@ -27,7 +27,7 @@ const Prosedur = () => {
         <Box display="flex">
             {/* SIDEBAR KOMPONEN */}
             <Sidebar/>
-            <Box>
+            <Box width="100%">
                 {/* TOPBAR KOMPONEN */}
                 <Topbar/>
                 {/* BODY */}
