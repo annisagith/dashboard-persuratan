@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+    
 // Mendefinisikan URL dasar untuk API
 const BASE_URL = 'https://trackingberkas-abcedvfqa7fqesc5.southeastasia-01.azurewebsites.net';
 

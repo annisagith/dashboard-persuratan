@@ -79,7 +79,7 @@ const Prosedur = () => {
                                     </Typography>
                                 </Box>
                                     <StackedBarChart/>
-                                </Box>
+                            </Box>
                         </Box>
                         {/* Informasi Prosedur */}
                         <Box 

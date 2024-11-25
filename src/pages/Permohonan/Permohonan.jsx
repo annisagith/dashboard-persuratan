@@ -3,6 +3,8 @@ import Topbar from "../../components/Global/Topbar";
 import Sidebar from "../../components/Global/Sidebar";
 import { tokens } from "../../theme/theme";
 import DownloadIcon from '@mui/icons-material/Download';
+import TrendPermohonan from "../../components/Permohonan/TrendPermohonan";
+import DataPermohonan from "../../components/Permohonan/DataPermohonan";
 
 const Permohonan = () => {
     const theme = useTheme();
@@ -22,7 +24,7 @@ const Permohonan = () => {
         <Box display="flex">
             {/* SIDEBAR KOMPONEN */}
             <Sidebar/>
-            <Box>
+            <Box sx = {{ width: "100%", }}>
                 {/* TOPBAR KOMPONEN */}
                 <Topbar/>
                 {/* BODY */}
@@ -51,6 +53,34 @@ const Permohonan = () => {
                                 </Button>
                             </Box>
                             ))}
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Box
+                            sx = {{ 
+                                backgroundColor: colors.white.main,
+                                padding: "20px",
+                                borderRadius: "20px",
+                                mt:"20px"
+                             }}
+                            >
+                            <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
+                                Trend Jumlah Permohonan
+                            </Typography>
+                            <TrendPermohonan/>
+                        </Box>
+                        <Box
+                            sx = {{ 
+                                backgroundColor: colors.white.main,
+                                padding: "20px",
+                                borderRadius: "20px",
+                                mt: "20px"
+                             }}
+                            >
+                            <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
+                                Data Permohonan
+                            </Typography>
+                            <DataPermohonan/>
                         </Box>
                     </Box>
                 </Box>

@@ -1,79 +1,128 @@
 import { useState } from "react";
 import {Table, Box, TableContainer, TableHead, TableBody, TableRow, Paper, TableCell, FormControl, InputLabel, Select, MenuItem,} from "@mui/material";
-import data from '../../data/permohonan.json';
+import Cookies from 'js-cookie';
+import axios from '../../api/axios';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect } from "react";
+
+// URL API untuk komponen Ringkasan Permohonan
+const URL = 'api/Overview/ringkasan';
 
 
 const AppSummary = () => {
+    // State untuk menyimpan data API
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     // State untuk menyimpan nilai filter
-    const [selectedService, setSelectedService] = useState("");
-    const [selectedStatus, setSelectedStatus] = useState("");
+    const [selectedLayanan, setSelectedLayanan] = useState("");
+    const [selectedPosisi, setSelectedPosisi] = useState("");
+
+    //Menangkap data dari api
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = Cookies.get('token');
+                const response = await axios.get(URL, {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response); // Log respons dari API untuk memeriksa datanya
+                setData(response.data.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []); // [] membuat efek hanya dipanggil sekali saat komponen dimuat
+    
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        ); // Menampilkan CircularProgress saat loading
+    }
 
     // Mendapatkan daftar unik jenis layanan dan status dari data JSON
-    const services = [...new Set(data.map(item => item.type_of_service))];
-    const statuses = [...new Set(data.map(item => item.status))];
+    const layanans = [...new Set(data.map(item => item.namaLayanan))];
+    const posisis = [...new Set(data.map(item => item.namaPenanggungJawab))];
 
     // Handler untuk perubahan filter
-    const handleServiceChange = (event) => {
-        setSelectedService(event.target.value);
-    };
+    const handleLayananChange = (event) => {
+        setSelectedLayanan(event.target.value);
+    }
+    
 
-    const handleStatusChange = (event) => {
-        setSelectedStatus(event.target.value);
+    const handlePosisiChange = (event) => {
+        setSelectedPosisi(event.target.value);
     };
 
     // Filter data berdasarkan filter yang dipilih
     const filteredData = data.filter((row) => {
         return (
-            (selectedService === "" || row.type_of_service === selectedService) &&
-            (selectedStatus === "" || row.status === selectedStatus)
+            (selectedLayanan === "" || row.namaLayanan === selectedLayanan) &&
+            (selectedPosisi === "" || row.namaPenanggungJawab === selectedPosisi)
         );
     });
 
     return (
         <Box>
             <Paper sx={{ width: '100%', backgroundColor: "transparent", borderRadius: "15px" }}>
-                <TableContainer sx={{ maxHeight: 170, borderRadius: "15px" }}>
+                <TableContainer 
+                    sx={{ 
+                        maxHeight: 240, 
+                        borderRadius: "15px",
+                        scrollbarWidth: "none", // Menyembunyikan scrollbar (untuk Firefox)
+                        '&::-webkit-scrollbar': {
+                            display: "none" // Menyembunyikan scrollbar (untuk Chrome, Edge, Safari) 
+                            }
+                        }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Letter Number</TableCell>
+                                <TableCell>Nomor Permohonan</TableCell>
                                 <TableCell align="right">
-                                    <FormControl variant="standard" sx={{ minWidth: 120, marginLeft: 1 }}>
-                                        <InputLabel id="service-select-label" shrink>Types Of Services</InputLabel>
+                                    <FormControl variant="standard" sx={{ minWidth: 95, marginLeft: 1 }}>
+                                        <InputLabel id="layanan-select-label" shrink>Layanan</InputLabel>
                                         <Select
-                                            labelId="service-select-label"
-                                            value={selectedService}
-                                            onChange={handleServiceChange}
+                                            labelId="layanan-select-label"
+                                            value={selectedLayanan}
+                                            onChange={handleLayananChange}
                                             displayEmpty
                                         >
                                             <MenuItem value="">
                                                 <em>All</em>
                                             </MenuItem>
-                                            {services.map((service) => (
-                                                <MenuItem key={service} value={service}>
-                                                    {service}
+                                            {layanans.map((layanan) => (
+                                                <MenuItem key={layanan} value={layanan}>
+                                                    {layanan}
                                                 </MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
                                 </TableCell>
-                                <TableCell align="right">Due Date</TableCell>
+                                <TableCell align="right">Tenggat</TableCell>
                                 <TableCell align="right">
                                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                                         <FormControl variant="standard" sx={{ minWidth: 120, marginLeft: 1 }}>
-                                            <InputLabel id="status-select-label" shrink>Status</InputLabel>
+                                            <InputLabel id="posisi-select-label" shrink>Posisi</InputLabel>
                                             <Select
-                                                labelId="status-select-label"
-                                                value={selectedStatus}
-                                                onChange={handleStatusChange}
+                                                labelId="posisi-select-label"
+                                                value={selectedPosisi}
+                                                onChange={handlePosisiChange}
                                                 displayEmpty
                                             >
                                                 <MenuItem value="">
                                                     <em>All</em>
                                                 </MenuItem>
-                                                {statuses.map((status) => (
-                                                    <MenuItem key={status} value={status}>
-                                                        {status}
+                                                {posisis.map((posisi) => (
+                                                    <MenuItem key={posisi} value={posisi}>
+                                                        {posisi}
                                                     </MenuItem>
                                                 ))}
                                             </Select>
@@ -84,13 +133,13 @@ const AppSummary = () => {
                         </TableHead>
                         <TableBody sx={{ border: 'none' }}>
                             {filteredData.map((row) => (
-                                <TableRow key={row.letter_number} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow key={row.noPermohonan} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell component="th" scope="row">
-                                        {row.letter_number}
+                                        {row.noPermohonan}
                                     </TableCell>
-                                    <TableCell align="right">{row.type_of_service}</TableCell>
-                                    <TableCell align="right">{row.due_date}</TableCell>
-                                    <TableCell align="right">{row.status}</TableCell>
+                                    <TableCell align="right">{row.namaLayanan}</TableCell>
+                                    <TableCell align="right">{row.statusHari}</TableCell>
+                                    <TableCell align="right">{row.namaPenanggungJawab}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

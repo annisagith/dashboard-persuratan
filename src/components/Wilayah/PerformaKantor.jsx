@@ -61,7 +61,7 @@ const PerformaKantor = () => {
             {/* Autocomplete untuk memilih wilayah */}
             <Box display="flex" alignItems="center" mb={2}>
                 <Typography variant="h6" mr={2}>
-                    Analisis Performa Kantor Wilayah: {selectedWilayah}
+                    Analisis Performa Kantor {selectedWilayah}
                 </Typography>
                 <Autocomplete
                     disablePortal

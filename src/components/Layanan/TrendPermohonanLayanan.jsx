@@ -1,0 +1,152 @@
+import { useEffect, useState } from "react";
+import axios from "../../api/axios";
+import { Box, Typography } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import Cookies from "js-cookie";
+
+const URL = "api/LayananDashboard/permohonan/avg-pemrosesan-trends";
+
+const TrendPermohonanLayanan = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedKategori, setSelectedKategori] = useState(null);
+    const [selectedTahun, setSelectedTahun] = useState('2024');
+    const [kategoriLayanan, setKategoriLayanan] = useState([]);
+    const [tahun, setTahun] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = Cookies.get('token');
+                const response = await axios.get(URL, {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response); // Log respons dari API untuk memeriksa datanya
+                setData(response.data.data);
+                setLoading(false);
+                // Ambil tahun dan kategori unik
+                const uniqueYears = Array.from(new Set(response.data.data.map((item) => item.tahun).filter((y) => y)));
+                const uniqueCategories = Array.from(new Set(response.data.data.map((item) => item.namaKategori)));
+                setTahun(uniqueYears);
+                setKategoriLayanan(uniqueCategories);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []); // [] membuat efek hanya dipanggil sekali saat komponen dimuat
+    
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        ); // Menampilkan CircularProgress saat loading
+    }
+
+    // Filter data berdasarkan kategori dan tahun
+    const filteredData = data.filter(
+        (item) =>
+        (!selectedKategori || item.namaKategori === selectedKategori) &&
+        (!selectedTahun || item.tahun === parseInt(selectedTahun))
+    );
+
+    // Format data untuk grafik
+    const chartData = [];
+
+    // Membuat struktur data dengan kuartal dan layanan
+    filteredData.forEach((item) => {
+        const layananIndex = chartData.findIndex((entry) => entry.layanan === item.namaLayanan);
+
+        if (layananIndex === -1) {
+            // Tambahkan layanan baru dengan data kuartal yang sesuai
+            chartData.push({
+                layanan: item.namaLayanan,
+                Q1: item.q1,
+                Q2: item.q2,
+                Q3: item.q3,
+                Q4: item.q4
+            });
+        } else {
+            // Update layanan yang sudah ada dengan data kuartal
+            chartData[layananIndex].Q1 += item.q1;
+            chartData[layananIndex].Q2 += item.q2;
+            chartData[layananIndex].Q3 += item.q3;
+            chartData[layananIndex].Q4 += item.q4;
+        }
+    });
+
+    // Membuat data untuk sumbu X (quarter)
+    const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+
+    // Format data untuk setiap layanan
+    const formattedDataForChart = quarters.map((quarter) => {
+        const result = { quarter };
+        chartData.forEach((item) => {
+            result[item.layanan] = item[quarter]; // Menambahkan data layanan untuk kuartal terkait
+        });
+        return result;
+    });
+
+    return (
+        <Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+            <Typography variant="h6">Tren Rata-rata Waktu Pemrosesan Layanan</Typography>
+            <Autocomplete
+              disablePortal
+              options={tahun}
+              value={selectedTahun}
+              onChange={(event, newValue) => setSelectedTahun(newValue)}
+              sx={{ width: 200 }}
+              renderInput={(params) => <TextField {...params} label="Pilih Tahun" />}
+            />
+            <Autocomplete
+              disablePortal
+              options={kategoriLayanan}
+              value={selectedKategori}
+              onChange={(event, newValue) => setSelectedKategori(newValue)}
+              sx={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Pilih Kategori" />}
+            />
+          </Box>
+
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart
+              data={formattedDataForChart}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="quarter" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              
+              {/* Generate one Line for each service (layanan) */}
+              {chartData.map((item, index) => (
+                <Line
+                  key={index}
+                  type="monotone"
+                  dataKey={item.layanan} // Set dataKey to represent each layanan
+                  stroke={index % 2 === 0 ? "#8884d8" : "#82ca9d"} // Alternating colors for different lines
+                  name={item.layanan}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
+    );
+};
+
+export default TrendPermohonanLayanan;

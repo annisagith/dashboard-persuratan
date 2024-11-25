@@ -33,8 +33,7 @@ export const tokens = (mode) => ({
                 opacity: 0.34, // 34%
             },
             red: {
-                main: "#FF9066", // Merah
-                opacity: 0.34, // 34%
+                main: "#F93C65", // Merah
             },
             darkRed: {
                 main: "#F93C65", // Merah tua
@@ -94,8 +93,7 @@ export const tokens = (mode) => ({
             opacity: 0.34, // 34%
         },
         red: {
-            main: "#FF9066", // merah
-            opacity: 0.34, // 34%
+            main: "#F93C65", // merah
         },
         darkRed: {
             main: "#F93C65", // merah tua

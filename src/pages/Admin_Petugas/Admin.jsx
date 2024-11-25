@@ -3,6 +3,9 @@ import Topbar from "../../components/Global/Topbar";
 import Sidebar from "../../components/Global/Sidebar";
 import { tokens } from "../../theme/theme";
 import DownloadIcon from '@mui/icons-material/Download';
+import Card from "../../components/Admin_Petugas/Card";
+import ProsedurPj from "../../components/Admin_Petugas/ProsedurPj";
+import DaftarPj from "../../components/Admin_Petugas/DaftarPj";
 
 const Admin = () => {
     const theme = useTheme();
@@ -23,7 +26,7 @@ const Admin = () => {
         <Box display="flex">
             {/* SIDEBAR KOMPONEN */}
             <Sidebar/>
-            <Box>
+            <Box sx = {{ width: "100%" }}>
                 {/* TOPBAR KOMPONEN */}
                 <Topbar/>
                 {/* BODY */}
@@ -52,6 +55,36 @@ const Admin = () => {
                                 </Button>
                             </Box>
                             ))}
+                        </Box>
+                    </Box>
+                    <Box
+                        display="grid"
+                        gridTemplateColumns="repeat(1, 1fr)"
+                        gap="20px"
+                        paddingTop= "20px">
+                        {/* Card */}
+                        <Box gridColumn="span 1">
+                            <Card/>
+                        </Box>
+                        {/* Jumlah Prosedur Per Penanggung Jawab */}
+                        <Box
+                            gridColumn="span 1"
+                            backgroundColor={colors.white.main}
+                            borderRadius="20px">
+                            <ProsedurPj/>    
+                        </Box>                        
+                        {/* Daftar Penanggung Jawab */}
+                        <Box 
+                            gridColumn="span 1"
+                            backgroundColor={colors.white.main}
+                            padding="15px"
+                            borderRadius="20px">
+                            <Box sx ={{ display:"flex", justifyContent:"space-between", alignItems: "center" }}>
+                                <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
+                                    Informasi Prosedur
+                                </Typography>
+                            </Box>
+                            <DaftarPj/>
                         </Box>
                     </Box>
                 </Box>

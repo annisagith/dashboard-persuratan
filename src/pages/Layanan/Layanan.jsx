@@ -3,6 +3,10 @@ import Topbar from "../../components/Global/Topbar";
 import Sidebar from "../../components/Global/Sidebar";
 import { tokens } from "../../theme/theme";
 import DownloadIcon from '@mui/icons-material/Download';
+import PieJumlahPermohonan from "../../components/Layanan/PieJumlahPermohonan.jsx";
+import TrendPermohonanLayanan from "../../components/Layanan/TrendPermohonanLayanan.jsx";
+import BarJmlhPermohonan from "../../components/Layanan/BarJmlhPermohonan.jsx";
+import DaftarLayanan from "../../components/Layanan/DaftarLayanan.jsx";
 
 const Layanan = () => {
     const theme = useTheme();
@@ -23,7 +27,7 @@ const Layanan = () => {
         <Box display="flex">
             {/* SIDEBAR KOMPONEN */}
             <Sidebar/>
-            <Box>
+            <Box width="100%">
                 {/* TOPBAR KOMPONEN */}
                 <Topbar/>
                 {/* BODY */}
@@ -52,6 +56,63 @@ const Layanan = () => {
                                 </Button>
                             </Box>
                             ))}
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Box
+                            sx = {{ 
+                                display: "grid",
+                                gridTemplateColumns: "repeat(12, 1fr)",
+                                gap: "20px",
+                                paddingTop: "20px"
+                             }}>
+                            {/* Permohonan/Kategori Layanan */}
+                            <Box
+                                sx ={{ 
+                                    backgroundColor: colors.white.main,
+                                    padding: "20px",
+                                    borderRadius: "20px",
+                                    gridColumn: "span 4"
+                                 }}>
+                                <Typography>
+                                    Permohonan/Kategori Layanan
+                                </Typography>
+                                <PieJumlahPermohonan/>
+                            </Box>
+                            {/* Tren Rata-rata Waktu Pemrosesan Layanan/Kategori (hari) */}
+                            <Box
+                                sx = {{ 
+                                    backgroundColor: colors.white.main,
+                                    padding: "20px",
+                                    borderRadius: "20px",
+                                    gridColumn: "span 8"
+                                 }}>
+                                <TrendPermohonanLayanan/>   
+                            </Box>
+                        </Box>
+                        {/* Perbandingan Jumlah Permohonan Berdasarkan Status Permohonan  */}
+                        <Box
+                            sx = {{ 
+                                backgroundColor: colors.white.main,
+                                padding: "20px",
+                                borderRadius: "20px",
+                                mt: "20px",
+                                width: "100%"
+                             }}>
+                            <Typography>
+                                Perbandingan Jumlah Permohonan Berdasarkan Status Permohonan 
+                            </Typography>
+                            <BarJmlhPermohonan/>
+                        </Box>
+                        {/* DAFTAR LAYANAN */}
+                        <Box
+                            sx = {{ 
+                                backgroundColor: colors.white.main,
+                                padding: "20px",
+                                borderRadius: "20px",
+                                mt: "20px"
+                             }}>
+                                <DaftarLayanan/>
                         </Box>
                     </Box>
                 </Box>
