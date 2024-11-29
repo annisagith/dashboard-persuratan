@@ -79,9 +79,10 @@ const PerformaKantor = () => {
                 xAxis={[{ 
                     scaleType: 'band', 
                     dataKey: 'x', 
+                    tickPlacement: "middle",
                     tickLabelStyle: {
-                        angle: 10,
-                        textAnchor: 'start',
+                        angle: -10,
+                        textAnchor: 'end',
                         fontSize: 10,
                     },
                 }]}
@@ -114,7 +115,8 @@ const PerformaKantor = () => {
                 ]}
                 width={1000}
                 height={300}
-            />
+                margin={{ bottom: 80 }}
+                />
         </Box>
     );
 }

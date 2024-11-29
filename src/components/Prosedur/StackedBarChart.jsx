@@ -54,9 +54,10 @@ const StackedBarChart = () => {
         xAxis={[{ 
             scaleType: 'band', 
             dataKey: 'x', 
+            tickPlacement: 'middle',
             tickLabelStyle: {
-              angle: 10,
-              textAnchor: 'start',
+              angle: -15,
+              textAnchor: 'end',
               fontSize: 10,
           },
           }]}
@@ -78,7 +79,8 @@ const StackedBarChart = () => {
             }
         ]}
         width={1000}
-        height={300}
+        height={400}
+        margin={{ bottom: 100 }}
         />
     )
 }

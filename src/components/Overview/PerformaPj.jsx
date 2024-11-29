@@ -1,4 +1,5 @@
-import { BarChart } from '@mui/x-charts/BarChart';
+// import { BarChart } from '@mui/x-charts/BarChart';
+import { BarChart } from '@mui/x-charts';
 import CircularProgress from '@mui/material/CircularProgress';
 import Cookies from "js-cookie";
 import axios from '../../api/axios';
@@ -6,9 +7,9 @@ import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 
 // URL untuk komponen Jumlah Prosedur Per Penanggung Jawab
-const URL = 'api/PetugasDashboard/penanggung-jawab/jumlah-prosedur'
+const URL = 'api/Overview/performa-penanggung-jawab'
 
-const ProsedurPj = () => {
+const PerformaPj = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,7 +24,7 @@ const ProsedurPj = () => {
                     }
                 });
                 console.log(response); // Log respons dari API untuk memeriksa datanya
-                setData(response.data);
+                setData(response.data.data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -43,23 +44,38 @@ const ProsedurPj = () => {
 
     const dataset = data.map(item => ({
         nama: item.namaPenanggungJawab,
-        jmlh_prosedur: item.jumlahProsedur
+        rerata: item.rerata
     }));
-    return (
-        <Box sx={{ padding: 1, width: "100%" }}>
+
+    return(
+        <Box>
             <BarChart
+                slotProps={{
+                    legend: {
+                    itemMarkWidth: 20,
+                    itemMarkHeight: 5,
+                },
+                }}
                 dataset={dataset}
                 yAxis={[{ 
                     scaleType: 'band', 
-                    dataKey: 'nama', 
-                }]} // Sumbu Y sebagai kategori
-                series={[{ dataKey: 'jmlh_prosedur', label: 'Jumlah Prosedur'}]} // Data seri
+                    dataKey: 'nama',
+                    tickPlacement: 'middle',
+                    tickLabelStyle: {
+                        angle:0,
+                        textAnchor: 'end',
+                        fontSize: 7,
+                    }
+                    }]} // Sumbu Y sebagai kategori
+                series={[{ dataKey: 'rerata', label: 'Rata rata waktu proses'}]} // Data seri
                 layout="horizontal" // Orientasi horizontal
-                width={1000}
-                height={400}
-                margin={{ left: 500 }}
-                />
+                width={600}
+                height={300}
+                margin={{ left: 300 }}
+            />
         </Box>
-      );
+    )
+
 }
-export default ProsedurPj;
+
+export default PerformaPj;

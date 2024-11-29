@@ -1,4 +1,4 @@
-import { BarChart } from '@mui/x-charts/BarChart';
+import { BarChart } from '@mui/x-charts';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -40,6 +40,7 @@ const BarJmlhPermohonan = () => {
             </Box>
         ); // Menampilkan CircularProgress saat loading
     }
+
     const chartData = data.map(item => ({
         kategori: item.namaKategori,
         diajukan: item.totalDiajukan,
@@ -55,6 +56,7 @@ const BarJmlhPermohonan = () => {
             xAxis={[{ 
                 scaleType: 'band',  
                 dataKey: 'kategori', 
+                tickPlacement: 'middle',
                 tickLabelStyle: {
                 angle: 10,
                 textAnchor: 'start',
@@ -83,7 +85,8 @@ const BarJmlhPermohonan = () => {
                 }
             ]}
             width={1000}
-            height={300}
+            height={400}
+            margin={{ bottom: 80 }}
             />
       );
 }
