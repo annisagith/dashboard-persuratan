@@ -1,14 +1,12 @@
-import { Box, Typography, useTheme, Button } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme/theme";
 import { alpha } from "@mui/material";
-import DownloadIcon from '@mui/icons-material/Download';
 import Topbar from "../../components/Global/Topbar";
 import Sidebar from "../../components/Global/Sidebar";
-// import StatBox from "../../components/Overview/StatBox";
 import CardData from "../../components/Overview/CardData";
 import GeographyChart from "../../components/Overview/GeographyChart";
 import AppSummary from "../../components/Overview/AppSummary";
-import PerformaPj from "../../components/Permohonan/PerformaPj";
+import PerformaPj from "../../components/Overview/PerformaPj";
 import StatusPermohonan from "../../components/Overview/StatusPermohonan";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from 'react-router-dom';
@@ -31,112 +29,80 @@ const Overview = () => {
 
     if (!auth.role) {
         return <div>Loading...</div>; // Menunggu data auth tersedia
-    }
-
-    const handleButtonClick = (label) => {
-        switch(label) {
-            case "Download Reports":
-                console.log("Downloading reports...");
-                // Logika download di sini
-                break;
-            default:
-                console.log("Unknown action");
-        }
-    };    
+    }   
 
     return (
         <Box display="flex">
         {/* SIDEBAR KOMPONEN */}
         <Sidebar/>
         <Box width="100%">
-        {/* TOPBAR KOMPONEN */}
-        <Topbar/>
-        {/* BODY */}
-        <Box m="20px">
-            {/* HEADER */}
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <Typography variant="h4" sx={{ color: colors.primary.main }}>
-                    Overview
-                </Typography>
-                <Box display="flex">
-                    {["Download Reports"].map((label, index) => (
-                    <Box key={index}>
-                        <Button 
-                            onClick={() => handleButtonClick(label)}
-                            sx={{
-                                fontSize: "10px",
-                                fontWeight: "lighter",
-                                borderRadius: "20px",
-                                border: "1px solid",
-                                borderColor: colors.primary.main,
-                                margin: "0 3px"
-                            }}
-                        >
-                            {label.includes("Download") && <DownloadIcon sx={{ mr: "10px" }} />}
-                            {label}
-                        </Button>
-                    </Box>
-                    ))}
+            {/* TOPBAR KOMPONEN */}
+            <Topbar/>
+            {/* BODY */}
+            <Box m="20px">
+                {/* HEADER */}
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                    <Typography variant="h4" sx={{ color: colors.primary.main }}>
+                        Overview
+                    </Typography>
                 </Box>
-            </Box>
-            {/* GRID AND CHARTS */}
-            <Box
-                display="grid"
-                gridTemplateColumns="repeat(12, 1fr)"
-                gap="20px"
-                paddingTop= "20px"
-                
-            >
-                {/* ROW 1 => 5 CARD TILES*/}
-                <Box gridColumn={`span 12`}>
-                    <CardData/>
-                </Box>
-                {/* ROW 2 */}
-                {/* PETA */}
+                {/* GRID AND CHARTS */}
                 <Box
-                     gridColumn="span 6"
-                     backgroundColor={colors.white.main}
-                     borderRadius="20px"
-                     >
-                    <Box>
-                        <GeographyChart/>
-                    </Box> 
-                </Box>
-                {/* SUMMARY */}
-                <Box
-                    gridColumn="span 6"
-                    backgroundColor= {alpha(colors.white.main, 0.60)}
-                    borderRadius="20px"
-                    p={2}
+                    display="grid"
+                    gridTemplateColumns="repeat(12, 1fr)"
+                    gap="20px"
+                    paddingTop= "20px"
                     >
-                    <Box sx ={{ display:"flex", justifyContent:"space-between", alignItems: "center" }}>
+                    {/* ROW 1 => 5 CARD TILES*/}
+                    <Box gridColumn={`span 12`}>
+                        <CardData/>
+                    </Box>
+                    {/* ROW 2 */}
+                    {/* PETA */}
+                    <Box
+                        gridColumn={{ xs: 'span 12', sm: 'span 12', md: 'span 6', lg: 'span 6', xl: 'span 6' }}
+                        backgroundColor={colors.white.main}
+                        borderRadius="20px"
+                        >
+                        <Box>
+                            <GeographyChart/>
+                        </Box> 
+                    </Box>
+                    {/* SUMMARY */}
+                    <Box
+                        gridColumn={{ xs: 'span 12', sm: 'span 12', md: 'span 6', lg: 'span 6', xl: 'span 6' }}
+                        backgroundColor= {alpha(colors.white.main, 0.60)}
+                        borderRadius="20px"
+                        p={2}
+                        >
                         <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             Ringkasan Permohonan Dalam Penanganan
                         </Typography>
+                        <AppSummary/>
                     </Box>
-                    <AppSummary/>
-                </Box>
-                {/* ROW 3 */}
-                <Box
-                    gridColumn="span 6"
-                    backgroundColor={colors.white.main}
-                    padding= "15px" >
+                    {/* ROW 3 */}
+                    <Box
+                        gridColumn={{ xs: 'span 12', sm: 'span 12', md: 'span 7', lg: 'span 7', xl: 'span 7' }}
+                        backgroundColor={colors.white.main}
+                        padding= "15px" 
+                        borderRadius="20px">
                         <Typography variant="h6" fontWeight="bold" sx={{ color: colors.primary.main }}>
-                        Performa Penanggung Jawab
+                            Performa Penanggung Jawab
                         </Typography>
                         <PerformaPj/>
                     </Box>
-                <Box
-                    gridColumn="span 6"
-                    backgroundColor={colors.white.main} 
-                    padding= "15px">
+                    <Box
+                        gridColumn={{ xs: 'span 12', sm: 'span 12', md: 'span 5', lg: 'span 5', xl: 'span 5' }}
+                        backgroundColor={colors.white.main} 
+                        padding= "15px"
+                        borderRadius="20px">
                         <Typography variant="h6" fontWeight="bold" sx={{ marginBottom: "15px", color: colors.primary.main }}>
                             Status Permohonan
                         </Typography>
                         <StatusPermohonan/>
-                    </Box>
+                        </Box>
+                </Box>
             </Box>
-        </Box>
         </Box>
         </Box>
     );
