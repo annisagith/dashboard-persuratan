@@ -1,4 +1,4 @@
-import { BarChart } from '@mui/x-charts';
+import { BarChart, Bar, XAxis, YAxis, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -51,44 +51,41 @@ const BarJmlhPermohonan = () => {
     }));
 
     return (
-        <BarChart
-            dataset={chartData}
-            xAxis={[{ 
-                scaleType: 'band',  
-                dataKey: 'kategori', 
-                tickPlacement: 'middle',
-                tickLabelStyle: {
-                angle: 10,
-                textAnchor: 'start',
-                fontSize: 10,
-            },}]}
-            series={[
-                {
-                    dataKey: 'diajukan', // Key untuk data seri pertama
-                    label: 'Diajukan',
-                },
-                {
-                    dataKey: 'diproses', // Key untuk data seri kedua
-                    label: 'Diproses',
-                },
-                {
-                    dataKey: 'ditolak', // Key untuk data seri ketiga
-                    label: 'Ditolak',
-                },
-                {
-                    dataKey: 'selesai', // Key untuk data seri ketiga
-                    label: 'Selesai',
-                },
-                {
-                    dataKey: 'sop', // Key untuk data seri ketiga
-                    label: 'Melebihi SOP',
-                }
-            ]}
-            width={1000}
-            height={400}
-            margin={{ bottom: 80 }}
-            />
-      );
+        <Box width="100%" height={400}>
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} margin={{bottom: 20}}>
+                    {/* Sumbu X */}
+                    <XAxis 
+                        dataKey="kategori" 
+                        angle={0} 
+                        textAnchor="middle" 
+                        tick={{ fontSize: 12, fill: '#ffffff', width: 150}}
+                        interval={0} // Menampilkan semua label
+                    />
+                    
+                    {/* Sumbu Y */}
+                    <YAxis />
+                    
+                    {/* Tooltip */}
+                    <Tooltip
+                        contentStyle={{ backgroundColor: "#333", border: "none", borderRadius: "8px", color: "#fff" }} // Warna latar tooltip
+                        itemStyle={{ color: "#fff" }} // Warna teks item tooltip
+                        cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} // Warna saat kursor hover di batang
+                    />
+                    {/* Legenda */}
+                    <Legend verticalAlign="top" height={36} />
+
+                    {/* Bar untuk setiap seri */}
+                    <Bar dataKey="diajukan" fill="#02B2AF" name="Diajukan" />
+                    <Bar dataKey="diproses" fill="#72CCFF" name="Diproses" />
+                    <Bar dataKey="ditolak" fill="#DA00FF" name="Ditolak" />
+                    <Bar dataKey="selesai" fill="#9001CB" name="Selesai" />
+                    <Bar dataKey="sop" fill="#2E96FF" name="Melebihi SOP" />
+                </BarChart>
+            </ResponsiveContainer>
+        </Box>
+    );
 }
 
 export default BarJmlhPermohonan;
+

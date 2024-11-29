@@ -1,4 +1,4 @@
-import { BarChart } from "@mui/x-charts/BarChart";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 import { Box } from "@mui/material";
@@ -18,7 +18,7 @@ const StackedBarChart = () => {
                 const token = Cookies.get('token');
                 const response = await axios.get(STATUSES_URL, {
                     headers: { 
-                        'Authorization': `Bearer ${token}`, // Use backticks for template literal
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -31,58 +31,58 @@ const StackedBarChart = () => {
             }
         };
         fetchData();
-    }, []); // [] membuat efek hanya dipanggil sekali saat komponen dimuat
-    
+    }, []);
+
     if (loading) {
         return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <CircularProgress />
-        </Box>
-        ); // Menampilkan CircularProgress saat loading
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
     }
 
+    // Transformasi data untuk Recharts
     const chartData = data.map(item => ({
-        x: item.namaProsedur,
+        namaProsedur: item.namaProsedur,
         antrian: item.totalAntrian,
-        diproses: item.totalDiproses, 
-        selesai: item.totalSelesai 
+        diproses: item.totalDiproses,
+        selesai: item.totalSelesai
     }));
 
     return (
-        <BarChart
-        dataset={chartData}
-        xAxis={[{ 
-            scaleType: 'band', 
-            dataKey: 'x', 
-            tickPlacement: 'middle',
-            tickLabelStyle: {
-              angle: -15    ,
-              textAnchor: 'end',
-              fontSize: 10,
-          },
-          }]}
-          series={[
-            {
-                dataKey: 'antrian', // Key untuk data seri pertama
-                label: 'Antrian',
-                stack: 'stack1',
-            },
-            {
-                dataKey: 'diproses', // Key untuk data seri kedua
-                label: 'Diproses',
-                stack: 'stack1',
-            },
-            {
-                dataKey: 'selesai', // Key untuk data seri ketiga
-                label: 'Selesai',
-                stack: 'stack1',
-            }
-        ]}
-        width={1000}
-        height={400}
-        margin={{ bottom: 100 }}
-        />
-    )
-}
+        <Box>
+            <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={chartData} margin={{ bottom: 30}}>
+                    {/* Sumbu X */}
+                    <XAxis 
+                        dataKey="namaProsedur"
+                        tick={{ fontSize: 12, fill: '#ffffff', width:100}}
+                        textAnchor="middle" 
+                        interval={0}
+                    />
+                    {/* Sumbu Y */}
+                    <YAxis />
+                    {/* Tooltip */}
+                    <Tooltip
+                        contentStyle={{ backgroundColor: "#333", border: "none", borderRadius: "8px", color: "#fff" }} // Warna latar tooltip
+                        itemStyle={{ color: "#fff" }} // Warna teks item tooltip
+                        cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} // Warna saat kursor hover di batang
+                    />
+                    {/* Legend */}
+                    <Legend 
+                        verticalAlign="top" 
+                        height={10}
+                        iconType="rect"
+                        formatter={() => 'Rerata Hari Pengerjaan Prosedur'}
+                        />
+                    {/* Grafik batang bertumpuk */}
+                    <Bar dataKey="antrian" stackId="a" fill="#02B2AF" name="Antrian" />
+                    <Bar dataKey="diproses" stackId="a" fill="#72CCFF" name="Diproses" />
+                    <Bar dataKey="selesai" stackId="a" fill="#DA00FF" name="Selesai" />
+                </BarChart>
+            </ResponsiveContainer>
+        </Box>
+    );
+};
 
 export default StackedBarChart;
