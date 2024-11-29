@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import Cookies from "js-cookie";
 
 const URL = "api/LayananDashboard/permohonan/avg-pemrosesan-trends";
@@ -12,8 +12,10 @@ const URL = "api/LayananDashboard/permohonan/avg-pemrosesan-trends";
 const TrendPermohonanLayanan = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedKategori, setSelectedKategori] = useState(null);
+
+    const [selectedKategori, setSelectedKategori] = useState('Pelayanan Peralihan Hak');
     const [selectedTahun, setSelectedTahun] = useState('2024');
+    
     const [kategoriLayanan, setKategoriLayanan] = useState([]);
     const [tahun, setTahun] = useState([]);
 
@@ -27,7 +29,6 @@ const TrendPermohonanLayanan = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-                console.log(response); // Log respons dari API untuk memeriksa datanya
                 setData(response.data.data);
                 setLoading(false);
                 // Ambil tahun dan kategori unik
@@ -50,6 +51,8 @@ const TrendPermohonanLayanan = () => {
             </Box>
         ); // Menampilkan CircularProgress saat loading
     }
+
+    const colors = ['#FFAE4C', '#6FD195', '#7086FD', '#1F94FF','#988AFC', '#07DBFA', '#FF9066', "#C3A5F3", "#FF6B6B"];
 
     // Filter data berdasarkan kategori dan tahun
     const filteredData = data.filter(
@@ -97,7 +100,7 @@ const TrendPermohonanLayanan = () => {
 
     return (
         <Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2}}>
             <Typography variant="h6">Tren Rata-rata Waktu Pemrosesan Layanan</Typography>
             <Autocomplete
               disablePortal
@@ -117,33 +120,47 @@ const TrendPermohonanLayanan = () => {
             />
           </Box>
 
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart
-              data={formattedDataForChart}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart data={formattedDataForChart}>
+              <defs>
+                {chartData.map((item, index) => (
+                  <linearGradient
+                    key={`colorGradient_${item.layanan}`}
+                    id={`colorGradient_${item.layanan.replace(/\s+/g, '_')}`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor={colors[index % colors.length]}
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor={colors[index % colors.length]}
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                ))}
+              </defs>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="quarter" />
               <YAxis />
               <Tooltip />
               <Legend />
-              
-              {/* Generate one Line for each service (layanan) */}
               {chartData.map((item, index) => (
-                <Line
+                <Area
                   key={index}
                   type="monotone"
-                  dataKey={item.layanan} // Set dataKey to represent each layanan
-                  stroke={index % 2 === 0 ? "#8884d8" : "#82ca9d"} // Alternating colors for different lines
-                  name={item.layanan}
+                  dataKey={item.layanan}
+                  stroke={colors[index % colors.length]}
+                  fill={`url(#colorGradient_${item.layanan.replace(/\s+/g, '_')})`}
+                  fillOpacity={1}
                 />
               ))}
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </Box>
     );

@@ -5,13 +5,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Cookies from "js-cookie";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const URL = "api/WilayahDashboard/trend";
 
 const TrendPermohonan = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+
     const [selectedWilayah, setSelectedWilayah] = useState("Pusat"); 
 
     useEffect(() => {
@@ -61,7 +62,7 @@ const TrendPermohonan = () => {
     const months = monthNames.map(month => ({ bulan: month }));
     
     // Contoh dengan lima warna
-    const colors = ["#6FD195", "#FFAE4C", "#7086FD", "#C3A5F3", "#FF6B6B"]; 
+    const colors = ['#FFAE4C', '#6FD195', '#7086FD', '#1F94FF','#988AFC', '#07DBFA', '#FF9066', "#C3A5F3", "#FF6B6B"];
 
     // Tambahkan data permohonan per tahun ke objek bulan, jika data ada untuk bulan tersebut
     uniqueYears.forEach(year => {
@@ -87,7 +88,31 @@ const TrendPermohonan = () => {
                 />
             </Box>
             <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={months}>
+                <AreaChart data={months}>
+                    <defs>
+                        {/* Tambahkan linearGradient untuk setiap tahun */}
+                        {uniqueYears.map((year, index) => (
+                        <linearGradient
+                            key={`colorGradient_${year}`}
+                            id={`colorGradient_${year}`}
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+                            <stop
+                            offset="5%"
+                            stopColor={colors[index % colors.length]}
+                            stopOpacity={0.8}
+                            />
+                            <stop
+                            offset="95%"
+                            stopColor={colors[index % colors.length]}
+                            stopOpacity={0}
+                            />
+                        </linearGradient>
+                        ))}
+                    </defs>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="bulan" />
                     <YAxis />
@@ -96,15 +121,17 @@ const TrendPermohonan = () => {
 
                     {/* Buat Line untuk setiap tahun unik dengan data yang terpisah */}
                     {uniqueYears.map((year, index) => (
-                        <Line 
+                        <Area 
                             key={year}
                             type="monotone" 
                             dataKey={`permohonan_${year}`} // dataKey yang unik per tahun
                             stroke={colors[index % colors.length]} // Pilih warna berdasarkan index dan jumlah warna
                             name={`Permohonan ${year}`} // Nama sesuai tahun di legend
+                            fillOpacity={1} 
+                            fill={`url(#colorGradient_${year})`} // Isi dengan gradient yang sesuai
                         />
                     ))}
-                </LineChart>
+                </AreaChart>
             </ResponsiveContainer>
         </Box>
     );
