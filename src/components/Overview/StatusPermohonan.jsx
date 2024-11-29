@@ -41,24 +41,42 @@ const StatusPermohonan = () => {
         ); // Menampilkan CircularProgress saat loading
     }
 
+    const colors = ['#07DBFA', '#6FD195', '#FFAE4C', '#988AFC', '#7086FD'];
+
     // Format the chart data
-    const chartData = data.map((item) => ({
+    const chartData = data.map((item, index) => ({
         id: item.namaStatus,
         value: item.jumlahPermohonan,  // Use the 'jumlahPermohonan' from API response
-        label: item.namaStatus       // Use the 'namaKategori' from API response
+        label: item.namaStatus,     // Use the 'namaKategori' from API response
+        color: colors[index % colors.length] // Warna diambil berdasarkan indeks
     }));
 
     return (
-        <Box>
+        <Box
+            display="flex" 
+            justifyContent="center" 
+       
+            height="100%" // Mengatur tinggi Box agar mengambil seluruh tinggi tampilan
+        >
             <PieChart
+                slotProps={{
+                    legend: {
+                    direction: 'column',
+                    position: { vertical: 'middle   ', horizontal: 'right' },
+                    itemMarkWidth: 10,
+                    itemMarkHeight: 5,
+                    markGap: 5,
+                    itemGap: 10,
+                },
+                }}
                 series={[
                     {
-                        data: chartData,
-                        highlightScope: { fade: 'global', highlight: 'item' },
-                        faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                    data: chartData,
+                    highlightScope: { fade: 'global', highlight: 'item' },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
                     }
                 ]}
-                height={300}
+                height={250}
             />
         </Box>
     );

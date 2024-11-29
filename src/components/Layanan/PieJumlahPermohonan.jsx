@@ -42,21 +42,23 @@ const PieJumlahPermohonan = () => {
     }
 
     // Format the chart data
+    const colors = ['#1F94FF', '#07DBFA', '#6FD195', '#7086FD', '#988AFC', '#FFAE4C', '#FF9066'];
+
     const chartData = data.map((item, index) => ({
-        id: index,
-        value: item.jumlahPermohonan,  // Use the 'jumlahPermohonan' from API response
-        label: item.namaKategori       // Use the 'namaKategori' from API response
+        value: item.jumlahPermohonan,  // Mengambil 'jumlahPermohonan' dari API
+        label: item.namaKategori,     // Mengambil 'namaKategori' dari API
+        color: colors[index % colors.length], // Warna diambil berdasarkan indeks
     }));
     
     return (
         <Box sx={{ width: '100%' }}>
             <PieChart
                 series={[{ 
-                    data: chartData, 
-                    innerRadius: 40,
+                    data: chartData,
+                    innerRadius: 60,
                  }]}
                 width={400}
-                height={200}
+                height={300}
                 slotProps={{ legend: { hidden: true } }} // Hides the legend
             />
         </Box>
