@@ -49,7 +49,6 @@ const SummaryWilayah = () => {
 
     return (
         <Box sx={{
-            py: 2,
             maxWidth: '100%',  // Pastikan kontainer tidak melampaui lebar layar
             width: '100%', // Pastikan kontainer mengisi seluruh lebar
             overflowX: 'auto', // Aktifkan scroll horizontal
