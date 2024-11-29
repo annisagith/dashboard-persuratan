@@ -19,6 +19,7 @@ const URL = 'api/Overview/card';
 const CardData = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -120,12 +121,13 @@ const CardData = () => {
                 scrollbarWidth: 'none',   // Menyembunyikan scrollbar di Firefox
              }}
         >
-            <Box sx={{
-                display: 'flex',
-                flexWrap: 'nowrap', // Pastikan grid tetap dalam satu baris
-                gap: 2,
-                justifyContent: 'flex-start'
-            }}>
+            <Box 
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'nowrap', // Pastikan grid tetap dalam satu baris
+                        gap: 2,
+                        justifyContent: 'flex-start'
+                    }}>
                 {cardDetails.map(({ title, count, icon, iconBackground, keterangan, keteranganIcon }) => (
                     <Box
                         key={title}
@@ -138,8 +140,7 @@ const CardData = () => {
                             padding: 2,
                             display: "flex",
                             flexDirection: "column",
-                         }}                    
-                        >
+                         }}>
                         {/* Title */}
                         <Typography variant="h5" sx={{ color: colors.primary.main }}>
                             {title}

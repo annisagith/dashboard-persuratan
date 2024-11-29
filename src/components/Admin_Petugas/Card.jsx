@@ -17,6 +17,7 @@ const URL = 'api/PetugasDashboard/admin/count';
 const Card = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -96,70 +97,84 @@ const Card = () => {
     })
 
     return (
-        <Box sx={{
-            flexWrap: 'nowrap', // Pastikan grid tetap dalam satu baris
-            gap: 2,
-            justifyContent: 'flex-start',
-            display:"grid",
-            gridTemplateColumns:"repeat(12, 1fr)",
-            overflowX: 'auto', // Aktifkan scroll horizontal
-            '&::-webkit-scrollbar': { display: 'none' }, // Menyembunyikan scrollbar di Webkit browsers
-            msOverflowStyle: 'none',  // Menyembunyikan scrollbar di Internet Explorer dan Edge
-            scrollbarWidth: 'none',   // Menyembunyikan scrollbar di Firefox
-        }}>
-            {cardDetails.map(({ title, count, icon, iconBackground, keterangan, keteranganIcon }) => (
+        <Box 
+            sx={{
+                flexWrap: 'nowrap', // Pastikan grid tetap dalam satu baris
+                gap: 2,
+                justifyContent: 'flex-start',   
+                display:"grid",
+                gridTemplateColumns:"repeat(12, 1fr)",
+                overflowX: 'auto', // Aktifkan scroll horizontal
+                '&::-webkit-scrollbar': { display: 'none' }, // Menyembunyikan scrollbar di Webkit browsers
+                msOverflowStyle: 'none',  // Menyembunyikan scrollbar di Internet Explorer dan Edge
+                scrollbarWidth: 'none',   // Menyembunyikan scrollbar di Firefox
+            }}>
                 <Box
-                    key={title}
-                    p={3}
-                    borderRadius={7}
-                    gridColumn="span 4"
-                    backgroundColor= {alpha(colors.white.main, 0.40)}
-                    >
-                    {/* Title */}
-                    <Typography variant="h5" sx={{ color: colors.primary.main }}>
-                        {title}
-                    </Typography>
-
-                    {/* Count and Icon */}
-                    <Box sx={{ display: "flex", alignItems: "center", mt: 2, mx: 2 }}>
-                        <Typography
-                            variant="h3"
-                            fontWeight="bold"
-                            sx={{ color: colors.primary.main, flex: 1 }}
-                        >
-                            {count}
-                        </Typography>
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'nowrap', // Pastikan grid tetap dalam satu baris
+                        gap: 2,
+                        justifyContent: 'flex-start'
+                    }}>
+                    {cardDetails.map(({ title, count, icon, iconBackground, keterangan, keteranganIcon }) => (
                         <Box
-                            sx={{
-                                backgroundColor: iconBackground,
-                                borderRadius: "20%",
+                            key={title}
+                            sx = 
+                            {{ 
+                                flex: '0 0 auto', // Menjaga lebar tetap otomatis
+                                width: 370, // Tentukan lebar agar konten tetap terkontrol
+                                backgroundColor: alpha(colors.white.main, 0.34),
+                                borderRadius: 5,
+                                padding: 2,
                                 display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                width: 60,
-                                height: 60,
-                            }}
-                        >
-                            {React.cloneElement(icon, { sx: { fontSize: 40, color: colors.primary.main } })}
-                        </Box>
-                    </Box>
+                                flexDirection: "column",
+                            }}>
+                            {/* Title */}
+                            <Typography variant="h5" sx={{ color: colors.primary.main }}>
+                                {title}
+                            </Typography>
 
-                    {/* Subtitle with keterangan and dynamic icon */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                        {keteranganIcon && (
-                            <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                {keteranganIcon}
+                            {/* Count and Icon */}
+                            <Box sx={{ display: "flex", alignItems: "center", mt: 2, mx: 2 }}>
+                                <Typography
+                                    variant="h3"
+                                    fontWeight="bold"
+                                    sx={{ color: colors.primary.main, flex: 1 }}
+                                >
+                                    {count}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        backgroundColor: iconBackground,
+                                        borderRadius: "20%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        width: 60,
+                                        height: 60,
+                                    }}
+                                >
+                                    {React.cloneElement(icon, { sx: { fontSize: 40, color: colors.primary.main } })}
+                                </Box>
                             </Box>
-                        )}
-                        <Typography
-                            variant="body2"
-                            sx={{ mt: 1, ml: 1 }}  // Tambahkan margin-left di sini jika perlu jarak
-                        >
-                            {keterangan}
-                        </Typography>
-                    </Box>
-                </Box>
-            ))}
+
+                            {/* Subtitle with keterangan and dynamic icon */}
+                            <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                {keteranganIcon && (
+                                    <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                        {keteranganIcon}
+                                    </Box>
+                                )}
+                                <Typography
+                                    variant="body2"
+                                    sx={{ mt: 1, ml: 1 }}  // Tambahkan margin-left di sini jika perlu jarak
+                                >
+                                    {keterangan}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    ))}
+            </Box>
         </Box>
     );
 
