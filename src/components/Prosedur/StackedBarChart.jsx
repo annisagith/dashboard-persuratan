@@ -56,7 +56,7 @@ const StackedBarChart = () => {
             dataKey: 'x', 
             tickPlacement: 'middle',
             tickLabelStyle: {
-              angle: -15,
+              angle: -15    ,
               textAnchor: 'end',
               fontSize: 10,
           },
