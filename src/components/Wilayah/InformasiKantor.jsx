@@ -1,17 +1,21 @@
-import Cookies from "js-cookie";
-import axios from "../../api/axios";
+import axios from '../../api/axios';
+import Cookies from 'js-cookie';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useState, useEffect } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Box, Typography, Autocomplete, TextField} from "@mui/material";
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
+import { TextField, Autocomplete, Typography, Table, Box, TableContainer, TableHead, TableBody, TableRow, Paper, TableCell, FormControl, InputLabel, Select, MenuItem,} from "@mui/material";
 
 // URL untuk komponen Informasi Kantor
 const URL = "api/WilayahDashboard/kantor";
 
 const InformasiKantor = () => {
+    // State untuk menyimpan data API
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedWilayah, setSelectedWilayah] = useState("Pusat");
+    
+    // State untuk menyimpan nilai filter
+    const [selectedWilayah, setSelectedWilayah] = useState("Wilayah Provinsi Aceh");
+    const [selectedKantor, setSelectedKantor] = useState("");
+    const [selectedLayanan, setSelectedLayanan] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,20 +46,21 @@ const InformasiKantor = () => {
         ); // Menampilkan CircularProgress saat loading
     }
 
-    // Mengambil data kantor berdasarkan wilayah yang dipilih
-    const selectedWilayahData = data.find(item => item.namaWilayah === selectedWilayah);
-    const chartData = selectedWilayahData ? selectedWilayahData.kantors.map(kantor => ({
-        kantor: kantor.nama,           // Nama kantor sebagai x-axis
-        email: kantor.email,
-        telpon: kantor.telp,
-        permohonan: kantor.jumlahPermohonan,
-        waktu: kantor.rerataKantor,
-        layanan: kantor.namaLayanan,
-        admin: kantor.jumlahAdmin,
-    })) : [];
-
-    // Pilihan wilayah untuk Autocomplete
-    const wilayahOptions = data.map(item => item.namaWilayah);
+     // Mendapatkan daftar unik wilayah, kantor, dan layanan
+     const wilayahOptions = data.map(item => item.namaWilayah);
+     const selectedWilayahData = data.find(item => item.namaWilayah === selectedWilayah);
+     const kantors = selectedWilayahData ? selectedWilayahData.kantors.map(kantor => kantor.nama) : [];
+     const layanans = selectedWilayahData ? [...new Set(selectedWilayahData.kantors.map(kantor => kantor.namaLayanan))] : [];
+ 
+     // Membuat data tabel berdasarkan filter
+     const filteredData = selectedWilayahData
+         ? selectedWilayahData.kantors.filter(kantor => {
+             return (
+                 (selectedKantor === "" || kantor.nama === selectedKantor) &&
+                 (selectedLayanan === "" || kantor.namaLayanan === selectedLayanan)
+             );
+         })
+         : [];
 
     return (
         <Box>
@@ -74,34 +79,82 @@ const InformasiKantor = () => {
                 />
             </Box>
             <Box>
-                <TableContainer component={Paper} sx={{ maxHeight: 300, borderRadius: "15px" }}>
-                    <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                        <TableCell>Nama Kantor</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Telpon Kantor</TableCell>
-                        <TableCell>Jumlah Permohonan</TableCell>
-                        <TableCell>Waktu Eksekusi Rata-Rata</TableCell>
-                        <TableCell>Jumlah Admin</TableCell>
-                        <TableCell>Layanan Terpopuler</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {chartData.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>{item.kantor}</TableCell>
-                            <TableCell>{item.email}</TableCell>
-                            <TableCell>{item.telpon}</TableCell>
-                            <TableCell>{item.permohonan}</TableCell>
-                            <TableCell>{item.waktu}</TableCell>
-                            <TableCell>{item.admin}</TableCell>
-                            <TableCell>{item.layanan}</TableCell>
-                        </TableRow>
-                        ))}
-                    </TableBody>
-                    </Table>
-                </TableContainer>
+                <Paper sx={{ width: '100%', backgroundColor: "transparent", borderRadius: "15px" }}>
+                    <TableContainer 
+                        sx={{ 
+                            maxHeight: 400, 
+                            borderRadius: "15px",
+                            scrollbarWidth: "none", // Menyembunyikan scrollbar (untuk Firefox)
+                            '&::-webkit-scrollbar': {
+                                display: "none" // Menyembunyikan scrollbar (untuk Chrome, Edge, Safari) 
+                                }
+                            }}> 
+                        <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell  >
+                                    <FormControl variant="standard" sx={{ minWidth: 150, marginLeft: 1 }}>
+                                        <InputLabel id="kantor-select-label" shrink>Kantor</InputLabel>
+                                        <Select
+                                            labelId="kantor-select-label"
+                                            value={selectedKantor}
+                                            onChange={(event) => setSelectedKantor(event.target.value)}
+                                            displayEmpty
+                                        >
+                                            <MenuItem value="">
+                                                <em>All</em>
+                                            </MenuItem>
+                                            {kantors.map((kantor) => (
+                                                <MenuItem key={kantor} value={kantor}>
+                                                    {kantor}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Telpon Kantor</TableCell>
+                                <TableCell>Jumlah Permohonan</TableCell>
+                                <TableCell>Waktu Eksekusi Rata-Rata</TableCell>
+                                <TableCell>Jumlah Admin</TableCell>
+                                <TableCell>
+                                    <FormControl variant="standard" sx={{ minWidth: 150, marginLeft: 1 }}>
+                                        <InputLabel id="layanan-select-label" shrink>Layanan</InputLabel>
+                                        <Select
+                                            labelId="layanan-select-label"
+                                            value={selectedLayanan}
+                                            onChange={(event) => setSelectedLayanan(event.target.value)}
+                                            displayEmpty
+                                        >
+                                            <MenuItem value="">
+                                                <em>All</em>
+                                            </MenuItem>
+                                            {layanans.map((layanan) => (
+                                                <MenuItem key={layanan} value={layanan}>
+                                                    {layanan}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filteredData.map((item, index) => (
+                            <TableRow key={index}>
+                                 <TableCell>{item.nama}</TableCell>
+                                <TableCell>{item.email}</TableCell>
+                                <TableCell>{item.telp}</TableCell>
+                                <TableCell>{item.jumlahPermohonan}</TableCell>
+                                <TableCell>{item.rerataKantor}</TableCell>
+                                <TableCell>{item.jumlahAdmin}</TableCell>
+                                <TableCell>{item.namaLayanan}</TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Paper>
             </Box>
         </Box>
     )

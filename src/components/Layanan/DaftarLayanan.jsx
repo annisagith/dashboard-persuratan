@@ -2,8 +2,7 @@ import Cookies from "js-cookie";
 import axios from "../../api/axios";
 import { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Box, Typography} from "@mui/material";
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
+import {Table, Box, TableContainer, TableHead, TableBody, TableRow, Paper, TableCell, FormControl, InputLabel, Select, MenuItem,} from "@mui/material";
 
 // URL untuk komponen Daftar Layanan
 const URL = "api/LayananDashboard/daftar";
@@ -11,6 +10,10 @@ const URL = "api/LayananDashboard/daftar";
 const DaftarLayanan = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // State untuk menyimpan nilai filter
+    const [selectedLayanan, setSelectedLayanan] = useState("");
+    const [selectedKategori, setSelectedKategori] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,6 +44,19 @@ const DaftarLayanan = () => {
         ); // Menampilkan CircularProgress saat loading
     }
 
+    // Mendapatkan daftar unik jenis layanan, kantor, status, state, dan posisi dari data JSON
+    const layanans = [...new Set(data.map(item => item.namaLayanan))];
+    const kategoris = [...new Set(data.map(item => item.namaKategori))];
+
+     // Handler untuk perubahan filter
+     const handleLayananChange = (event) => {
+        setSelectedLayanan(event.target.value);
+    }
+    
+    const handleKategoriChange = (event) => {
+        setSelectedKategori(event.target.value);
+    }
+
     // Mengambil data kantor berdasarkan wilayah yang dipilih
     const chartData = data.map(item => ({
         layanan: item.namaLayanan,           // Nama kantor sebagai x-axis
@@ -48,41 +64,90 @@ const DaftarLayanan = () => {
         permohonan: item.jumlahPermohonan,
         waktu: item.rerataLayanan,
         prosedur: item.prosedurTerlama
-    }));
+    }))
+
+     // Filter data berdasarkan filter yang dipilih
+     const filteredData = chartData.filter((row) => {
+        return (
+            (selectedLayanan === "" || row.layanan === selectedLayanan) &&
+            (selectedKategori === "" || row.kategori === selectedKategori) 
+        )
+    })
 
     return (
         <Box>
-            <Box display="flex" alignItems="center" mb={2}>
-                <Typography variant="h6" mr={2}>
-                    Daaftar Layanan
-                </Typography>
-            </Box>
-            <Box>
-                <TableContainer component={Paper} sx={{ maxHeight: 300, borderRadius: "15px" }}>
+            <Paper sx={{ width: '100%', backgroundColor: "transparent", borderRadius: "15px" }}>
+                <TableContainer
+                    sx={{ 
+                        maxHeight: 400, 
+                        borderRadius: "15px",
+                        scrollbarWidth: "none", // Menyembunyikan scrollbar (untuk Firefox)
+                        '&::-webkit-scrollbar': {
+                            display: "none" // Menyembunyikan scrollbar (untuk Chrome, Edge, Safari) 
+                            }
+                        }}>
                     <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Layanan</TableCell>
-                            <TableCell>Kategori</TableCell>
-                            <TableCell>Jumlah Permohonan</TableCell>
-                            <TableCell>Rerata Waktu Proses (hari)</TableCell>
-                            <TableCell>Prosedur Terlama</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {chartData.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>{item.layanan}</TableCell>
-                            <TableCell>{item.kategori}</TableCell>
-                            <TableCell>{item.permohonan}</TableCell>
-                            <TableCell>{item.waktu}</TableCell>
-                            <TableCell>{item.prosedur}</TableCell>
-                        </TableRow>
-                        ))}
-                    </TableBody>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <FormControl variant="standard" sx={{ minWidth: 150, marginLeft: 1 }}>
+                                        <InputLabel id="layanan-select-label" shrink>Layanan</InputLabel>
+                                        <Select
+                                            labelId="layanan-select-label"
+                                            value={selectedLayanan}
+                                            onChange={handleLayananChange}
+                                            displayEmpty
+                                        >
+                                            <MenuItem value="">
+                                                <em>All</em>
+                                            </MenuItem>
+                                            {layanans.map((layanan) => (
+                                                <MenuItem key={layanan} value={layanan}>
+                                                    {layanan}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </TableCell>
+                                <TableCell>
+                                    <FormControl variant="standard" sx={{ minWidth: 150, marginLeft: 1 }}>
+                                        <InputLabel id="kategori-select-label" shrink>Kategori</InputLabel>
+                                        <Select
+                                            labelId="kategori-select-label"
+                                            value={selectedKategori}
+                                            onChange={handleKategoriChange}
+                                            displayEmpty
+                                        >
+                                            <MenuItem value="">
+                                                <em>All</em>
+                                            </MenuItem>
+                                            {kategoris.map((kategori) => (
+                                                <MenuItem key={kategori} value={kategori}>
+                                                    {kategori}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </TableCell>
+                                <TableCell>Jumlah Permohonan</TableCell>
+                                <TableCell>Rerata Waktu Proses (hari)</TableCell>
+                                <TableCell>Prosedur Terlama</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filteredData.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{item.layanan}</TableCell>
+                                <TableCell>{item.kategori}</TableCell>
+                                <TableCell>{item.permohonan} permohonan</TableCell>
+                                <TableCell>{item.waktu} hari</TableCell>
+                                <TableCell>{item.prosedur}</TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
                     </Table>
                 </TableContainer>
-            </Box>
+            </Paper>
         </Box>
     )
 
