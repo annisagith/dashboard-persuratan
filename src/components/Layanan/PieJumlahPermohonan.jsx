@@ -51,11 +51,11 @@ const PieJumlahPermohonan = () => {
     }));
     
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box>
             <PieChart
                 series={[{ 
                     data: chartData,
-                    innerRadius: 60,
+                    innerRadius: 50,
                  }]}
                 width={400}
                 height={300}

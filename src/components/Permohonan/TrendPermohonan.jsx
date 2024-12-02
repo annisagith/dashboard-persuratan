@@ -96,8 +96,11 @@ const TrendPermohonan = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="bulan" />
                     <YAxis />
-                    <Tooltip />
-                    <Legend />
+                    <Tooltip
+                        contentStyle={{ backgroundColor: "#333", border: "none", borderRadius: "8px", color: "#fff" }} // Warna latar tooltip
+                        itemStyle={{ color: "#fff" }} // Warna teks item tooltip
+                        cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} // Warna saat kursor hover di batang
+                    />                    <Legend />
                     {/* Buat Line untuk setiap tahun unik dengan data yang terpisah */}
                     {uniqueYears.map((year, index) => (
                         <Area  

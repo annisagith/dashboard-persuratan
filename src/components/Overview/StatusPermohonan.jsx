@@ -55,7 +55,6 @@ const StatusPermohonan = () => {
         <Box
             display="flex" 
             justifyContent="center" 
-       
             height="100%" // Mengatur tinggi Box agar mengambil seluruh tinggi tampilan
         >
             <PieChart

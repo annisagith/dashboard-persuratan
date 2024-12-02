@@ -82,7 +82,9 @@ const PerformaKantor = () => {
                         tick={{ 
                             fontSize: 12,
                             fill: '#ffffff', 
+                            width:200
                             }}
+                        interval={0}
                     />
                     <YAxis />
                     <Tooltip
@@ -90,7 +92,9 @@ const PerformaKantor = () => {
                         itemStyle={{ color: "#fff" }} // Warna teks item tooltip
                         cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} // Warna saat kursor hover di batang
                     />
-                    <Legend />
+                    <Legend 
+                        height={30}
+                        />
                     <Bar dataKey="diajukan" fill="#02B2AF" name="Diajukan" stackId="a"/>
                     <Bar dataKey="diproses" fill="#72CCFF" name="Diproses" stackId="a"/>
                     <Bar dataKey="selesai" fill="#DA00FF" name="Selesai" stackId="a"/>

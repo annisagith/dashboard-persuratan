@@ -4,12 +4,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Cookies from "js-cookie";
 import axios from '../../api/axios';
 import { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, useTheme} from '@mui/material';
+import { tokens } from "../../theme/theme";
+
 
 // URL untuk komponen Jumlah Prosedur Per Penanggung Jawab
 const URL = 'api/Overview/performa-penanggung-jawab'
 
 const PerformaPj = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -64,7 +69,7 @@ const PerformaPj = () => {
                         fontSize: 10, // Ukuran font
                         textAnchor: "end",
                         width:300,
-                        fill: '#ffffff', 
+                        fill: colors.primary.main, 
                         }}
                         interval={0} // Menampilkan semua label
                     />

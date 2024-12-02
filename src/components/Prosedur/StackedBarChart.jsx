@@ -73,7 +73,6 @@ const StackedBarChart = () => {
                         verticalAlign="top" 
                         height={10}
                         iconType="rect"
-                        formatter={() => 'Rerata Hari Pengerjaan Prosedur'}
                         />
                     {/* Grafik batang bertumpuk */}
                     <Bar dataKey="antrian" stackId="a" fill="#02B2AF" name="Antrian" />

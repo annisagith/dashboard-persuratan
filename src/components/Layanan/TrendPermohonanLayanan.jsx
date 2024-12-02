@@ -101,7 +101,7 @@ const TrendPermohonanLayanan = () => {
     return (
         <Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2}}>
-            <Typography variant="h6">Tren Rata-rata Waktu Pemrosesan Layanan</Typography>
+            <Typography variant="h6">Tren Rata-rata Waktu Pemrosesan Layanan / Hari</Typography>
             <Autocomplete
               disablePortal
               options={tahun}
@@ -148,7 +148,11 @@ const TrendPermohonanLayanan = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="quarter" />
               <YAxis />
-              <Tooltip />
+              <Tooltip
+                        contentStyle={{ backgroundColor: "#333", border: "none", borderRadius: "8px", color: "#fff" }} // Warna latar tooltip
+                        itemStyle={{ color: "#fff" }} // Warna teks item tooltip
+                        cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} // Warna saat kursor hover di batang
+                    />
               <Legend />
               {chartData.map((item, index) => (
                 <Area

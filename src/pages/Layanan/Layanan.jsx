@@ -35,7 +35,7 @@ const Layanan = () => {
                         >
                         {/* Permohonan/Kategori Layanan */}
                         <Box
-                            gridColumn="span 4"
+                            gridColumn={{ xs: 'span 12', sm: 'span 12', md: 'span 4', lg: 'span 4', xl: 'span 4' }}
                             backgroundColor={colors.white.main}
                             padding="20px"
                             borderRadius="20px"
@@ -47,7 +47,7 @@ const Layanan = () => {
                         </Box>
                         {/* Tren Rata-rata Waktu Pemrosesan Layanan/Kategori (hari) */}
                         <Box
-                            gridColumn="span 8"
+                            gridColumn={{ xs: 'span 12', sm: 'span 12', md: 'span 8', lg: 'span 8', xl: 'span 8' }}
                             backgroundColor={colors.white.main}
                             padding="20px"
                             borderRadius="20px"

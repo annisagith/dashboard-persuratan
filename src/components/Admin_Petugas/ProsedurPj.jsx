@@ -4,15 +4,19 @@ import Cookies from "js-cookie";
 import axios from '../../api/axios';
 import { useState, useEffect } from 'react';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { tokens } from "../../theme/theme";
+
 
 const URL = 'api/PetugasDashboard/penanggung-jawab/jumlah-prosedur';
 
 const ProsedurPj = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // Menggunakan tema untuk responsivitas
-    const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Deteksi layar kecil
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md')); // Layar sedang
 
@@ -69,7 +73,7 @@ const ProsedurPj = () => {
                             fontSize: 12,
                             textAnchor: "end",
                             width: isSmallScreen ? 300 : 600, // Lebar label responsif
-                            fill: '#ffffff',
+                            fill: colors.primary.main, 
                         }}
                         interval={0}
                     />
@@ -82,7 +86,7 @@ const ProsedurPj = () => {
                         verticalAlign="top"
                         height={36}
                         iconType="rect"
-                        formatter={() => 'Rerata Hari Pengerjaan Prosedur'}
+                        formatter={() => 'Jumlah Prosedur'}
                     />
                     <Bar dataKey="jmlh_prosedur" fill="#02b2af" />
                 </BarChart>
