@@ -123,27 +123,26 @@ const TrendPermohonanLayanan = () => {
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={formattedDataForChart}>
               <defs>
-                {chartData.map((item, index) => (
-                  <linearGradient
-                    key={`colorGradient_${item.layanan}`}
-                    id={`colorGradient_${item.layanan.replace(/\s+/g, '_')}`}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor={colors[index % colors.length]}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={colors[index % colors.length]}
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                ))}
+                {chartData.map((item, index) => {
+                  const gradientId = `colorGradient_${item.layanan
+                    .replace(/\s+/g, "_")
+                    .replace(/[^a-zA-Z0-9_]/g, "")}`;
+                  const gradientColor = colors[index % colors.length] || "#CCCCCC";
+
+                  return (
+                    <linearGradient
+                      key={gradientId}
+                      id={gradientId}
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="5%" stopColor={gradientColor} stopOpacity={0.8} />
+                      <stop offset="95%" stopColor={gradientColor} stopOpacity={0} />
+                    </linearGradient>
+                  );
+                })}
               </defs>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="quarter" />
@@ -160,7 +159,9 @@ const TrendPermohonanLayanan = () => {
                   type="monotone"
                   dataKey={item.layanan}
                   stroke={colors[index % colors.length]}
-                  fill={`url(#colorGradient_${item.layanan.replace(/\s+/g, '_')})`}
+                  fill={`url(#colorGradient_${item.layanan
+                    .replace(/\s+/g, "_")
+                    .replace(/[^a-zA-Z0-9_]/g, "")})`}                  
                   fillOpacity={1}
                 />
               ))}
