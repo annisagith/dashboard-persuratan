@@ -13,7 +13,7 @@ const InformasiKantor = () => {
     const [loading, setLoading] = useState(true);
     
     // State untuk menyimpan nilai filter
-    const [selectedWilayah, setSelectedWilayah] = useState("Wilayah Provinsi Aceh");
+    const [selectedWilayah, setSelectedWilayah] = useState("Wilayah Provinsi Jawa Timur");
     const [selectedKantor, setSelectedKantor] = useState("");
     const [selectedLayanan, setSelectedLayanan] = useState("");
 
@@ -119,7 +119,7 @@ const InformasiKantor = () => {
                                 <TableCell>Jumlah Admin</TableCell>
                                 <TableCell>
                                     <FormControl variant="standard" sx={{ minWidth: 150, marginLeft: 1 }}>
-                                        <InputLabel id="layanan-select-label" shrink>Layanan</InputLabel>
+                                        <InputLabel id="layanan-select-label" shrink>Layanan Terpopuler</InputLabel>
                                         <Select
                                             labelId="layanan-select-label"
                                             value={selectedLayanan}

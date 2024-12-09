@@ -1,14 +1,19 @@
 import { BarChart, Bar, XAxis, YAxis, Legend, Tooltip, ResponsiveContainer } from "recharts";
-import Box from '@mui/material/Box';
+import {Box, useTheme} from '@mui/material';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import axios from '../../api/axios';
 import CircularProgress from '@mui/material/CircularProgress';
+import { tokens } from "../../theme/theme";
+
 
 // URL untuk komponen Perbandingan Jumlah Permohonan Berdasarkan Status Permohonan Untuk Tiap Kategori
 const URL = "api/LayananDashboard/kategori/status";
 
 const BarJmlhPermohonan = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -59,7 +64,7 @@ const BarJmlhPermohonan = () => {
                         dataKey="kategori" 
                         angle={0} 
                         textAnchor="middle" 
-                        tick={{ fontSize: 12, fill: '#ffffff', width: 150}}
+                        tick={{ fontSize: 12, fill: colors.primary.main, width: 150}}
                         interval={0} // Menampilkan semua label
                     />
                     

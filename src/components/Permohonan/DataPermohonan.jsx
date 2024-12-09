@@ -187,7 +187,7 @@ const DataPermohonan = () => {
                             </TableCell>
                             <TableCell align="right">
                                 <FormControl variant="standard" sx={{ minWidth: 95, marginLeft: 1 }}>
-                                    <InputLabel id="state-select-label" shrink>State</InputLabel>
+                                    <InputLabel id="state-select-label" shrink>Prosedur saat ini</InputLabel>
                                     <Select
                                         labelId="state-select-label"
                                         value={selectedState}
@@ -207,7 +207,7 @@ const DataPermohonan = () => {
                             </TableCell>
                             <TableCell align="right">
                                 <FormControl variant="standard" sx={{ minWidth: 95, marginLeft: 1 }}>
-                                    <InputLabel id="posisi-select-label" shrink>Posisi</InputLabel>
+                                    <InputLabel id="posisi-select-label" shrink>Penanggung Jawab</InputLabel>
                                     <Select
                                         labelId="posisi-select-label"
                                         value={selectedPosisi}

@@ -1,17 +1,22 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
 import axios from "../../api/axios";
-import { Box, Typography, Autocomplete, TextField } from "@mui/material";
+import { Box, useTheme, Typography, Autocomplete, TextField } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import Cookies from "js-cookie";
+import { tokens } from "../../theme/theme";
+
 
 // URL untuk komponen Analisis Performa Kantor 
 const URL = "api/WilayahDashboard/performa";
 
 const PerformaKantor = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedWilayah, setSelectedWilayah] = useState("Pusat");
+    const [selectedWilayah, setSelectedWilayah] = useState("Wilayah Provinsi Jawa Timur");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,7 +86,7 @@ const PerformaKantor = () => {
                         textAnchor="middle" 
                         tick={{ 
                             fontSize: 12,
-                            fill: '#ffffff', 
+                            fill: colors.primary.main, 
                             width:200
                             }}
                         interval={0}

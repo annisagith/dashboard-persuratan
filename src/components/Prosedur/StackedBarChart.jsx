@@ -1,14 +1,19 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
 import axios from "../../api/axios";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import Cookies from "js-cookie";
+import { tokens } from "../../theme/theme";
+
 
 // URL untuk komponen Perbandingan Jumlah Permohonan Berdasarkan Status Prosedur 
 const STATUSES_URL = "api/ProsedurDashboard/statuses";
 
 const StackedBarChart = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -56,7 +61,7 @@ const StackedBarChart = () => {
                     {/* Sumbu X */}
                     <XAxis 
                         dataKey="namaProsedur"
-                        tick={{ fontSize: 12, fill: '#ffffff', width:100}}
+                        tick={{ fontSize: 12, fill: colors.primary.main, width:100}}
                         textAnchor="middle" 
                         interval={0}
                     />

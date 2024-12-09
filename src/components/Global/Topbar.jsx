@@ -30,7 +30,7 @@ const Topbar = () => {
     <Box className="topbar-component" sx={{ alignItems: 'center', padding: '0 20px', height: '40px'}}>
       <Typography variant="h4" color={colors.primary.main} fontWeight="bold">DASHBOARD</Typography>
       <Box display="flex" alignItems="center">
-          <Typography variant="h5 ">Welcome, {auth.nama_admin}</Typography>
+          <Typography variant="h5 ">Halo, {auth.nama_admin}</Typography>
           <IconButton onClick={colorMode.toggleColorMode}>
           {
               theme.palette.mode == "dark" ? (
